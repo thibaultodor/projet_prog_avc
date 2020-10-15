@@ -6,9 +6,9 @@ Type : Jeu de rythme
 
 **But :**
 
-<![if !supportLists]>- <![endif]>Faire le plus de **score** (enregistrement score en fin de partie (3 caractères, style arcade)) **OK**
+Faire le plus de **score** (enregistrement score en fin de partie (3 caractères, style arcade)) **OK**
 
-<![if !supportLists]>- <![endif]>Pour ce faire l’utilisateur doit rentrer la bonne input (droite ou gauche) au bon moment (lorsque les « choses » venant de droite et gauche (touche le joueur OU atteint une « zone » autour du joueur
+Pour ce faire l’utilisateur doit rentrer la bonne input (droite ou gauche) au bon moment (lorsque les « choses » venant de droite et gauche (touche le joueur OU atteint une « zone » autour du joueur
 
 **Description du jeu :**
 
