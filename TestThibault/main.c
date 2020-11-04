@@ -28,7 +28,7 @@ int main(int argc, char *argv[])	{
 	SDL_Renderer * ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
-	SDL_Texture* fond = charger_image("grey.bmp",ecran);
+	SDL_Texture* fond = charger_image("green.bmp",ecran);
 
     //Image sol
 	SDL_Texture* sol = charger_image("fond.bmp",ecran);
@@ -55,25 +55,35 @@ int main(int argc, char *argv[])	{
 	int tailleHs = surface_sprite->h/2;
 	SDL_FreeSurface(surface_sprite);
 
-	SDL_Rect SrcR_sprite,DestR_sprite;
-	SrcR_sprite.x = 0;
-	SrcR_sprite.y = 0;
-	SrcR_sprite.w = tailleWs; // Largeur du sprite
-	SrcR_sprite.h = tailleHs; // Hauteur du sprite
-	DestR_sprite.x = tailleW/2 - tailleWs/2;
-	DestR_sprite.y = 550 - tailleHs;
-	DestR_sprite.w = tailleWs; // Largeur du sprite
-	DestR_sprite.h = tailleHs; // Hauteur du sprite
+	SDL_Rect SrcR_sprite[6];
+	for(int i=0; i<6; i++){
+		SrcR_sprite[i].x = i > 2 ? tailleWs*(i-3) : tailleWs*(i);
+		SrcR_sprite[i].y = i > 2 ? tailleHs*(1) : tailleHs*(0);
+		SrcR_sprite[i].w = tailleWs; // Largeur du sprite
+		SrcR_sprite[i].h = tailleHs; // Hauteur du sprite
+	}
 
+	SDL_Rect DestR_sprite[6];
+	for(int i=0; i<6; i++){
+		DestR_sprite[i].x = 300-tailleWs/2;
+		DestR_sprite[i].y = 440;
+		DestR_sprite[i].w = tailleWs; // Largeur du sprite
+		DestR_sprite[i].h = tailleHs; // Hauteur du sprite
+	}
 
-	SDL_RenderClear(ecran);
-	SDL_RenderCopy(ecran, fond, NULL, NULL);
-    SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
-    SDL_RenderCopy(ecran, sprites, &SrcR_sprite, &DestR_sprite);
-	SDL_RenderPresent(ecran);
+	SDL_Rect* spriterectsrc = &SrcR_sprite[1];
+	SDL_Rect* spriterectdest = &DestR_sprite[1];
 
 	// Boucle principale
 	while(!terminer){
+
+		//Affichage
+		SDL_RenderClear(ecran);
+		SDL_RenderCopy(ecran, fond, NULL, NULL);
+    	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
+    	SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
+		SDL_RenderPresent(ecran);
+
 		while( SDL_PollEvent( &evenements ) )
 		switch(evenements.type){
 			case SDL_QUIT:
@@ -81,9 +91,9 @@ int main(int argc, char *argv[])	{
 
 		case SDL_KEYDOWN:
 			switch(evenements.key.keysym.sym){
-			case SDLK_ESCAPE:
-			case SDLK_q:
-			terminer = true; break;
+			case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
+			case SDLK_LEFT: spriterectsrc = &SrcR_sprite[4];spriterectdest = &DestR_sprite[4];break;
+			case SDLK_RIGHT: spriterectsrc = &SrcR_sprite[1];spriterectdest = &DestR_sprite[1];break;
 			}
 		}
 	}
