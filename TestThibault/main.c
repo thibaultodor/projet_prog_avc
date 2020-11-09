@@ -46,8 +46,33 @@ int main(int argc, char *argv[])	{
 	DestR.w = 600;
 	DestR.h = 50;
 
-	//Image perso
-	Uint8 r = 0, g = 255, b = 255;
+	//Image sprite carré
+	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
+	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
+	SDL_Rect SrcRc,DestRc;
+	SrcRc.x = 0;
+	SrcRc.y = 0;
+	SrcRc.w = 500;
+	SrcRc.h = 500;
+	DestRc.x = 275;
+	DestRc.y = 600-100;
+	DestRc.w = 50;
+	DestRc.h = 50;
+
+	//Image sprite patate
+	SDL_Texture* spatate = charger_image("sprite_patate.bmp",ecran);
+	SDL_Rect SrcRp,DestRp;
+	SrcRp.x = 0;
+	SrcRp.y = 0;
+	SrcRp.w = 500;
+	SrcRp.h = 500;
+	DestRp.x = 600-50;
+	DestRp.y = 600-200;
+	DestRp.w = 50;
+	DestRp.h = 50;
+
+	//Image sprite chat
+	/*Uint8 r = 0, g = 255, b = 255;
 	SDL_Texture* sprites = charger_image_transparente("sprites.bmp",ecran,r,g,b);
 
 	SDL_Surface * surface_sprite = SDL_LoadBMP("sprites.bmp");
@@ -73,15 +98,20 @@ int main(int argc, char *argv[])	{
 
 	SDL_Rect* spriterectsrc = &SrcR_sprite[1];
 	SDL_Rect* spriterectdest = &DestR_sprite[1];
+	*/
+
+	SDL_Texture* spritecarree = sdcarre;
+	int temp_position = DestRp.x--;
 
 	// Boucle principale
 	while(!terminer){
-
 		//Affichage
 		SDL_RenderClear(ecran);
 		SDL_RenderCopy(ecran, fond, NULL, NULL);
     	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
-    	SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
+    	SDL_RenderCopy(ecran, spritecarree, &SrcRc, &DestRc);
+    	SDL_RenderCopy(ecran, spatate, &SrcRp, &DestRp);
+    	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
 		SDL_RenderPresent(ecran);
 
 		while( SDL_PollEvent( &evenements ) )
@@ -92,16 +122,20 @@ int main(int argc, char *argv[])	{
 		case SDL_KEYDOWN:
 			switch(evenements.key.keysym.sym){
 			case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
-			case SDLK_LEFT: spriterectsrc = &SrcR_sprite[4];spriterectdest = &DestR_sprite[4];break;
-			case SDLK_RIGHT: spriterectsrc = &SrcR_sprite[1];spriterectdest = &DestR_sprite[1];break;
+			case SDLK_LEFT: spritecarree = sgcarre;break;
+			case SDLK_RIGHT: spritecarree = sdcarre;break;
 			}
 		}
+		SDL_Delay(10);
+		DestRp.x--;
+		if(DestRp.x<-50){DestRp.x = temp_position+50;}
 	}
 
 	// Quitter SDL
 	SDL_DestroyTexture(fond);
 	SDL_DestroyTexture(sol);
-	SDL_DestroyTexture(sprites);
+	SDL_DestroyTexture(spritecarree);
+	//SDL_DestroyTexture(sprites);
 	SDL_DestroyRenderer(ecran);
 	SDL_Quit();
 	return 0;
