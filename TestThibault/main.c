@@ -53,11 +53,11 @@ int main(int argc, char *argv[])	{
 	SrcRc.x = 0;
 	SrcRc.y = 0;
 	SrcRc.w = 500;
-	SrcRc.h = 500;
+	SrcRc.h = 2000;
 	DestRc.x = 275;
-	DestRc.y = 600-100;
+	DestRc.y = 600-250;
 	DestRc.w = 50;
-	DestRc.h = 50;
+	DestRc.h = 200;
 
 	//Image sprite patate
 	SDL_Texture* spatate = charger_image("sprite_patate.bmp",ecran);
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])	{
 	*/
 
 	SDL_Texture* spritecarree = sdcarre;
-	int temp_position = DestRp.x--;
+	int temp_position = DestRp.x+50;
 
 	// Boucle principale
 	while(!terminer){
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])	{
 		}
 		SDL_Delay(10);
 		DestRp.x--;
-		if(DestRp.x<-50){DestRp.x = temp_position+50;}
+		if(DestRp.x<-50){DestRp.x = temp_position;}
 	}
 
 	// Quitter SDL
