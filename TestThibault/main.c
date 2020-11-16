@@ -46,7 +46,7 @@ int main(int argc, char *argv[])	{
 	DestR.w = 600;
 	DestR.h = 50;
 
-	//Image sprite carré
+	//Image sprite carré (joueur)
 	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
 	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
 	SDL_Rect SrcRc,DestRc;
@@ -58,9 +58,15 @@ int main(int argc, char *argv[])	{
 	DestRc.y = 600-250;
 	DestRc.w = 50;
 	DestRc.h = 200;
+	//Sauvegarde des positions du sprite joueur
+	int posx_patate_attack_gauche = DestRc.x + DestRc.w;
+	int posy_patate_attack_gauche_bas = DestRc.y + DestRc.h;
+	int posy_patate_attack_gauche_haut = DestRc.y;
 
 	//Image sprite patate
 	SDL_Texture* spatate = charger_image("sprite_patate.bmp",ecran);
+	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
+	SDL_Texture* spatate_ko = charger_image("sprite_patate_degat.bmp",ecran);
 	SDL_Rect SrcRp,DestRp;
 	SrcRp.x = 0;
 	SrcRp.y = 0;
@@ -100,8 +106,9 @@ int main(int argc, char *argv[])	{
 	SDL_Rect* spriterectdest = &DestR_sprite[1];
 	*/
 
-	SDL_Texture* spritecarree = sdcarre;
-	int temp_position = DestRp.x+50;
+	SDL_Texture* spritecarree = sdcarre; //Texture tampon du du joueur
+	SDL_Texture* spritepatate = spatate; //Texture tampon de la patate
+	int temp_position = DestRp.x+50; //Postition de base de la patate
 
 	// Boucle principale
 	while(!terminer){
@@ -110,7 +117,7 @@ int main(int argc, char *argv[])	{
 		SDL_RenderCopy(ecran, fond, NULL, NULL);
     	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
     	SDL_RenderCopy(ecran, spritecarree, &SrcRc, &DestRc);
-    	SDL_RenderCopy(ecran, spatate, &SrcRp, &DestRp);
+    	SDL_RenderCopy(ecran, spritepatate, &SrcRp, &DestRp);
     	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
 		SDL_RenderPresent(ecran);
 
@@ -128,7 +135,17 @@ int main(int argc, char *argv[])	{
 		}
 		SDL_Delay(10);
 		DestRp.x--;
-		if(DestRp.x<-50){DestRp.x = temp_position;}
+		if(DestRp.x<-50){
+			spritepatate = spatate;
+			DestRp.x = temp_position;
+		}
+		if (DestRp.x == posx_patate_attack_gauche){
+			if(DestRp.y > posy_patate_attack_gauche_haut && DestRp.y < posy_patate_attack_gauche_bas){
+				if (spritecarree == sdcarre){spritepatate = spatate_ko;}
+				if (spritecarree == sgcarre){spritepatate = spatate_alive;}
+			}
+
+		}
 	}
 
 	// Quitter SDL
