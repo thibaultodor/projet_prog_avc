@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "fonctions_SDL.h"
+#include "fonctions_score.h"
 
 int main(int argc, char *argv[])	{
 	SDL_Window* fenetre; // Déclaration de la fenêtre
@@ -25,6 +26,14 @@ int main(int argc, char *argv[])	{
 	return EXIT_FAILURE;
 	}
 
+	int best_score = 0;	//Bool du best score
+	int score = 0; //Initialisation du score
+
+	//Ouverture fichier score
+	FILE * pFile;
+	pFile=fopen ("score.txt","r");
+
+	//Initialisation renderer
 	SDL_Renderer * ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
@@ -106,6 +115,36 @@ int main(int argc, char *argv[])	{
 	SDL_Rect* spriterectdest = &DestR_sprite[1];
 	*/
 
+	//Gestion affichage texte pour score
+	TTF_Init(); 
+	TTF_Font *font = TTF_OpenFont("./arial.ttf",25);
+	SDL_Color color = {0,0,0,0};
+	SDL_Color color_red = {250,0,0,0};
+	int tick_color_red = 0;
+
+	int meilleur_score_fichier = lireHighScore(pFile);
+
+	char msg_score_max[] = "Score max : xx";	//Gestion score max
+	SDL_Texture* texte = charger_texte_score(meilleur_score_fichier,ecran,font,color);
+	SDL_Surface * msg_score_max_surface = TTF_RenderText_Solid(font,msg_score_max,color);
+	SDL_Rect text_posm; // Position du texte
+	text_posm.x = 0;
+	text_posm.y = 10;
+	text_posm.w = msg_score_max_surface->w;// Largeur du texte en pixels (à récupérer)
+	text_posm.h = msg_score_max_surface->h;// Hauteur du texte en pixels (à récupérer)
+	SDL_FreeSurface(msg_score_max_surface);
+
+	char msg_score[] = "Score : xx";	//Gestion score actuel
+	SDL_Texture* texte_score = charger_texte_score_actu(0,ecran,font,color);
+	SDL_Surface * msg_score_surface = TTF_RenderText_Solid(font,msg_score,color);
+	SDL_Rect text_pos; // Position du texte
+	text_pos.x = 0;
+	text_pos.y = 40;
+	text_pos.w = msg_score_surface->w;// Largeur du texte en pixels (à récupérer)
+	text_pos.h = msg_score_surface->h;// Hauteur du texte en pixels (à récupérer)
+	SDL_FreeSurface(msg_score_surface);
+
+
 	SDL_Texture* spritecarree = sdcarre; //Texture tampon du du joueur
 	SDL_Texture* spritepatate = spatate; //Texture tampon de la patate
 	int temp_position = DestRp.x+50; //Postition de base de la patate
@@ -118,6 +157,8 @@ int main(int argc, char *argv[])	{
     	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
     	SDL_RenderCopy(ecran, spritecarree, &SrcRc, &DestRc);
     	SDL_RenderCopy(ecran, spritepatate, &SrcRp, &DestRp);
+    	SDL_RenderCopy(ecran, texte, NULL, &text_posm);
+    	SDL_RenderCopy(ecran, texte_score, NULL, &text_pos);
     	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
 		SDL_RenderPresent(ecran);
 
@@ -131,29 +172,47 @@ int main(int argc, char *argv[])	{
 			case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
 			case SDLK_LEFT: spritecarree = sgcarre;break;
 			case SDLK_RIGHT: spritecarree = sdcarre;break;
+			//Initialisation aprés appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
+			case SDLK_d:resetScore(pFile);texte = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
+			//Initialisation aprés appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
+			case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);break;
 			}
 		}
 		SDL_Delay(10);
-		DestRp.x--;
-		if(DestRp.x<-50){
-			spritepatate = spatate;
-			DestRp.x = temp_position;
-		}
-		if (DestRp.x == posx_patate_attack_gauche){
+		DestRp.x--;	//Deplacement patate
+		if(DestRp.x<-50){spritepatate = spatate;DestRp.x = temp_position;} //Retour de la patate aprés avoir quitté l'écran
+
+		if (DestRp.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
 			if(DestRp.y > posy_patate_attack_gauche_haut && DestRp.y < posy_patate_attack_gauche_bas){
-				if (spritecarree == sdcarre){spritepatate = spatate_ko;}
-				if (spritecarree == sgcarre){spritepatate = spatate_alive;}
+				if (spritecarree == sdcarre){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);}
+				if (spritecarree == sgcarre){spritepatate = spatate_alive;ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);}
 			}
 
 		}
-	}
 
-	// Quitter SDL
+		if (best_score == 0){
+			if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est supérieur au score max
+		else{
+			if (meilleur_score_fichier == 0){tick_color_red = -1;}
+			if (tick_color_red >= 0){tick_color_red++;}
+			if (tick_color_red < 100 && tick_color_red >= 0){texte = charger_texte_score(score,ecran,font,color_red);}
+			else{
+				tick_color_red = -1;
+				texte = charger_texte_score(score,ecran,font,color);
+			}
+		}//Affiche le score actuel en tant que score max
+	}
+	ecrireScore(score,pFile);
+
+	// Quitter et nettoyer SDL
 	SDL_DestroyTexture(fond);
 	SDL_DestroyTexture(sol);
 	SDL_DestroyTexture(spritecarree);
 	//SDL_DestroyTexture(sprites);
 	SDL_DestroyRenderer(ecran);
+	SDL_DestroyWindow(fenetre);
+	TTF_CloseFont(font);
+	TTF_Quit();
 	SDL_Quit();
 	return 0;
 	}
