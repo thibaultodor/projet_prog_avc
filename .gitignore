@@ -31,6 +31,3 @@
 *.out
 *.app
 main
-
-#Text files
-*.txt
