@@ -1,6 +1,6 @@
 #include "fonctions_graphique.h"
 
-void positionImageSol(SDL_Rect *SrcR, SDL_Rect *DestR,int W, int H,SDL_Surface *surface_obj){
+void positionImageSol(SDL_Rect *SrcR, SDL_Rect *DestR,int W, int H){
 	SrcR->x = W/4;
 	SrcR->y = H-50;
 	SrcR->w = W/2;

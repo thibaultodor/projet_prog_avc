@@ -2,7 +2,7 @@
 #include "fonctions_score.h"
 #include "fonctions_graphique.h"
 
-int main(int argc, char *argv[])	{
+int main()	{
 	SDL_Window* fenetre; // Déclaration de la fenêtre
 	SDL_Event evenements; // Événements liés à la fenêtre
 	bool terminer = false;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])	{
 	int tailleW = surface_obj->w;
 	int tailleH = surface_obj->h;
 	SDL_Rect SrcR,DestR;
-	positionImageSol(&SrcR,&DestR,tailleW,tailleH,&surface_obj);
+	positionImageSol(&SrcR,&DestR,tailleW,tailleH);
 
 	//Image sprite carré (joueur)
 	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
