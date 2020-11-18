@@ -4,8 +4,8 @@
 
 //Fonction servant à gérer les sprites
 
-void chargerImageSol();
-void chargerImageCarre(SDL_Rect* SrcRc,SDL_Rect* DestRc);
-void chargerImagePatate(SDL_Rect *SrcRp, SDL_Rect *DestRp);
+void positionImageSol();
+void positionImageCarre(SDL_Rect* SrcRc,SDL_Rect* DestRc);
+void positionImagePatate(SDL_Rect *SrcRp, SDL_Rect *DestRp);
 
 #endif

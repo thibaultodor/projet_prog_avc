@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include "fonctions_SDL.h"
 #include "fonctions_score.h"
+#include "fonctions_graphique.h"
 
 int main(int argc, char *argv[])	{
 	SDL_Window* fenetre; // Déclaration de la fenêtre
@@ -42,31 +40,18 @@ int main(int argc, char *argv[])	{
     //Image sol
 	SDL_Texture* sol = charger_image("fond.bmp",ecran);
 	SDL_Surface * surface_obj = SDL_LoadBMP("fond.bmp");
+	SDL_FreeSurface(surface_obj);
 	int tailleW = surface_obj->w;
 	int tailleH = surface_obj->h;
-	SDL_FreeSurface(surface_obj);
 	SDL_Rect SrcR,DestR;
-	SrcR.x = tailleW/4;
-	SrcR.y = tailleH-50;
-	SrcR.w = tailleW/2;
-	SrcR.h = 30;
-	DestR.x = 0;
-	DestR.y = 550;
-	DestR.w = 600;
-	DestR.h = 50;
+	positionImageSol(&SrcR,&DestR,tailleW,tailleH,&surface_obj);
 
 	//Image sprite carré (joueur)
 	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
 	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
 	SDL_Rect SrcRc,DestRc;
-	SrcRc.x = 0;
-	SrcRc.y = 0;
-	SrcRc.w = 500;
-	SrcRc.h = 2000;
-	DestRc.x = 275;
-	DestRc.y = 600-250;
-	DestRc.w = 50;
-	DestRc.h = 200;
+	positionImageCarre(&SrcRc,&DestRc);
+
 	//Sauvegarde des positions du sprite joueur
 	int posx_patate_attack_gauche = DestRc.x + DestRc.w;
 	int posy_patate_attack_gauche_bas = DestRc.y + DestRc.h;
@@ -77,14 +62,7 @@ int main(int argc, char *argv[])	{
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
 	SDL_Texture* spatate_ko = charger_image("sprite_patate_degat.bmp",ecran);
 	SDL_Rect SrcRp,DestRp;
-	SrcRp.x = 0;
-	SrcRp.y = 0;
-	SrcRp.w = 500;
-	SrcRp.h = 500;
-	DestRp.x = 600-50;
-	DestRp.y = 600-200;
-	DestRp.w = 50;
-	DestRp.h = 50;
+	positionImagePatate(&SrcRp,&DestRp);
 
 	//Image sprite chat
 	/*Uint8 r = 0, g = 255, b = 255;

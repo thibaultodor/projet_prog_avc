@@ -3,6 +3,7 @@
 
 //<---- Fonction servant a gérer le jeu
 
-
+void positionScore();
+}
 
 #endif
