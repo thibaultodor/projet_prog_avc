@@ -7,6 +7,7 @@ int main()	{
 	SDL_Window* fenetre; // Déclaration de la fenêtre
 	SDL_Event evenements; // Événements liés à la fenêtre
 	bool terminer = false;
+	int vie = 3;
 
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
@@ -149,16 +150,20 @@ int main()	{
 		if (DestRpD.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
 			if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
 				if (spritecarree == sdcarre){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-				if (spritecarree == sgcarre){spritepatate = spatate_alive;ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);}
+				if (spritecarree == sgcarre){spritepatate = spatate_alive;vie--;}
 			}
 
 		}
 		if (DestRpG.x == posx_patate_attack_droite-DestRpG.w){//Gestion score plus mort ou vie de la patate
 			if(DestRpG.y > posy_patate_attack_haut && DestRpG.y < posy_patate_attack_bas){
 				if (spritecarree == sgcarre){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-				if (spritecarree == sdcarre){spritepatateg = spatate_alive;ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);}
+				if (spritecarree == sdcarre){spritepatateg = spatate_alive;vie--;}
 			}
 
+		}
+
+		if (vie <= 0){
+			ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);vie=3;
 		}
 
 
