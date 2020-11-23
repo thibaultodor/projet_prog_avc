@@ -148,14 +148,14 @@ int main()	{
 
 		if (DestRpD.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
 			if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
-				if (spritecarree == sdcarre){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);}
+				if (spritecarree == sdcarre){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
 				if (spritecarree == sgcarre){spritepatate = spatate_alive;ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);}
 			}
 
 		}
 		if (DestRpG.x == posx_patate_attack_droite-DestRpG.w){//Gestion score plus mort ou vie de la patate
 			if(DestRpG.y > posy_patate_attack_haut && DestRpG.y < posy_patate_attack_bas){
-				if (spritecarree == sgcarre){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);}
+				if (spritecarree == sgcarre){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
 				if (spritecarree == sdcarre){spritepatateg = spatate_alive;ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);}
 			}
 
