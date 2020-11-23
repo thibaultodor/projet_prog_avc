@@ -22,6 +22,17 @@ void positionImageCarre(SDL_Rect* SrcRc,SDL_Rect* DestRc){
 	DestRc->h = 200;
 }
 
+void positionImageVie(SDL_Rect* SrcRv,SDL_Rect* DestRv){
+	SrcRv->x = 0;
+	SrcRv->y = 0;
+	SrcRv->w = 500;
+	SrcRv->h = 500;
+	DestRv->x = 400;
+	DestRv->y = 10;
+	DestRv->w = 30;
+	DestRv->h = 30;
+}
+
 void positionImagePatateArriveDroite(SDL_Rect *SrcRp, SDL_Rect *DestRp){
 	SrcRp->x = 0;
 	SrcRp->y = 0;

@@ -77,6 +77,12 @@ int main()	{
 	positionImagePatateArriveDroite(&SrcRp,&DestRpD);
 	positionImagePatateArriveGauche(&SrcRp,&DestRpG);
 
+	//Image Vie
+	Uint8 r = 0, g = 255, b = 255;
+	SDL_Texture* svie = charger_image_transparente("vie.bmp",ecran,r,g,b);
+	SDL_Rect SrcRv,DestRv;
+	positionImageVie(&SrcRv,&DestRv);
+
 	//Gestion affichage texte pour score
 	TTF_Init(); 
 	TTF_Font *font = TTF_OpenFont("./arial.ttf",25);
@@ -90,7 +96,7 @@ int main()	{
 	SDL_Texture* texte = charger_texte_score(meilleur_score_fichier,ecran,font,color);
 	SDL_Surface * msg_score_max_surface = TTF_RenderText_Solid(font,msg_score_max,color);
 	SDL_Rect text_posm; // Position du texte
-	text_posm.x = 0;
+	text_posm.x = 5;
 	text_posm.y = 10;
 	text_posm.w = msg_score_max_surface->w;// Largeur du texte en pixels (à récupérer)
 	text_posm.h = msg_score_max_surface->h;// Hauteur du texte en pixels (à récupérer)
@@ -100,7 +106,7 @@ int main()	{
 	SDL_Texture* texte_score = charger_texte_score_actu(0,ecran,font,color);
 	SDL_Surface * msg_score_surface = TTF_RenderText_Solid(font,msg_score,color);
 	SDL_Rect text_pos; // Position du texte
-	text_pos.x = 0;
+	text_pos.x = 5;
 	text_pos.y = 40;
 	text_pos.w = msg_score_surface->w;// Largeur du texte en pixels (à récupérer)
 	text_pos.h = msg_score_surface->h;// Hauteur du texte en pixels (à récupérer)
@@ -122,6 +128,11 @@ int main()	{
     	SDL_RenderCopy(ecran, spritepatateg, &SrcRp, &DestRpG);//Gestion patate venant de gauche
     	SDL_RenderCopy(ecran, texte, NULL, &text_posm);
     	SDL_RenderCopy(ecran, texte_score, NULL, &text_pos);
+    	for(int i = 0;i!=vie;i++){
+    		DestRv.x = DestRv.x + DestRv.w + 10;
+    		SDL_RenderCopy(ecran, svie, &SrcRv, &DestRv);
+    	}
+    	DestRv.x = 400;
     	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
 		SDL_RenderPresent(ecran);
 
