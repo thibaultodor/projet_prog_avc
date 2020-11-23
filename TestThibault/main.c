@@ -7,7 +7,18 @@ int main()	{
 	SDL_Window* fenetre; // Déclaration de la fenêtre
 	SDL_Event evenements; // Événements liés à la fenêtre
 	bool terminer = false;
-	int vie = 3;
+	//Structure gestion joueur
+	typedef struct joueur_s joueur_t;
+	struct joueur_s{
+		int vie;
+		int droit;
+		int gauche;
+	};
+	//Initialistion du joueur
+	joueur_t *joueur=malloc(sizeof(joueur_t));
+	joueur->vie=3;
+	joueur->droit=1;
+	joueur->gauche=0;
 
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
@@ -128,7 +139,7 @@ int main()	{
     	SDL_RenderCopy(ecran, spritepatateg, &SrcRp, &DestRpG);//Gestion patate venant de gauche
     	SDL_RenderCopy(ecran, texte, NULL, &text_posm);
     	SDL_RenderCopy(ecran, texte_score, NULL, &text_pos);
-    	for(int i = 0;i!=vie;i++){
+    	for(int i = 0;i!=joueur->vie;i++){
     		DestRv.x = DestRv.x + DestRv.w + 10;
     		SDL_RenderCopy(ecran, svie, &SrcRv, &DestRv);
     	}
@@ -144,8 +155,8 @@ int main()	{
 		case SDL_KEYDOWN:
 			switch(evenements.key.keysym.sym){
 			case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
-			case SDLK_LEFT: spritecarree = sgcarre;break;
-			case SDLK_RIGHT: spritecarree = sdcarre;break;
+			case SDLK_LEFT: spritecarree = sgcarre;joueur->gauche=1;joueur->droit=0;break;
+			case SDLK_RIGHT: spritecarree = sdcarre;joueur->gauche=0;joueur->droit=1;break;
 			//Initialisation aprés appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
 			case SDLK_d:resetScore(pFile);texte = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
 			//Initialisation aprés appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
@@ -160,21 +171,21 @@ int main()	{
 
 		if (DestRpD.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
 			if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
-				if (spritecarree == sdcarre){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-				if (spritecarree == sgcarre){spritepatate = spatate_alive;vie--;}
+				if (joueur->droit==1){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
+				if (joueur->gauche==1){spritepatate = spatate_alive;joueur->vie--;}
 			}
 
 		}
 		if (DestRpG.x == posx_patate_attack_droite-DestRpG.w){//Gestion score plus mort ou vie de la patate
 			if(DestRpG.y > posy_patate_attack_haut && DestRpG.y < posy_patate_attack_bas){
-				if (spritecarree == sgcarre){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-				if (spritecarree == sdcarre){spritepatateg = spatate_alive;vie--;}
+				if (joueur->gauche==1){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
+				if (joueur->droit==1){spritepatateg = spatate_alive;joueur->vie--;}
 			}
 
 		}
 
-		if (vie <= 0){
-			ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);vie=3;
+		if (joueur->vie <= 0){
+			ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);joueur->vie=3;
 		}
 
 
