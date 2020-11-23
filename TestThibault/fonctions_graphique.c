@@ -22,7 +22,7 @@ void positionImageCarre(SDL_Rect* SrcRc,SDL_Rect* DestRc){
 	DestRc->h = 200;
 }
 
-void positionImagePatate(SDL_Rect *SrcRp, SDL_Rect *DestRp){
+void positionImagePatateArriveDroite(SDL_Rect *SrcRp, SDL_Rect *DestRp){
 	SrcRp->x = 0;
 	SrcRp->y = 0;
 	SrcRp->w = 500;
@@ -31,4 +31,31 @@ void positionImagePatate(SDL_Rect *SrcRp, SDL_Rect *DestRp){
 	DestRp->y = 600-200;
 	DestRp->w = 50;
 	DestRp->h = 50;
+}
+
+void positionImagePatateArriveGauche(SDL_Rect *SrcRp, SDL_Rect *DestRp){
+	SrcRp->x = 0;
+	SrcRp->y = 0;
+	SrcRp->w = 500;
+	SrcRp->h = 500;
+	DestRp->x = -50;
+	DestRp->y = 600-200;
+	DestRp->w = 50;
+	DestRp->h = 50;
+}
+
+void deplacementPatateArriveDroite(SDL_Rect *DestRp,int v){
+	DestRp->x = DestRp->x - v;
+}
+
+void deplacementPatateArriveGauche(SDL_Rect *DestRp,int v){
+	DestRp->x = DestRp->x + v;
+}
+
+void retourPatateArriveDroite(SDL_Rect *DestRp){
+	DestRp->x = 600;
+}
+
+void retourPatateArriveGauche(SDL_Rect *DestRp){
+	DestRp->x = -50;
 }
