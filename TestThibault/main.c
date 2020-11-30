@@ -4,8 +4,8 @@
 #include "audio.h"
 
 int main()	{
-	SDL_Window* fenetre; // DÃ©claration de la fenÃªtre
-	SDL_Event evenements; // Ã‰vÃ©nements liÃ©s Ã  la fenÃªtre
+	SDL_Window* fenetre; // Déclaration de la fenÃªtre
+	SDL_Event evenements; // Ã‰vénements liés Ã  la fenÃªtre
 	bool terminer = false;
 	//Structure gestion joueur
 	typedef struct joueur_s joueur_t;
@@ -24,21 +24,21 @@ int main()	{
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
 	//Demarrage musique
-	playSound("road.wav", 8);
+	playMusic("road.wav", 8);
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) // Initialisation de la SDL
 	{
-	printf("Erreur dâ€™initialisation de la SDL: %s",SDL_GetError());
+	printf("Erreur d'initialisation de la SDL: %s",SDL_GetError());
 	SDL_Quit();
 	return EXIT_FAILURE;
 	}
 
-	// CrÃ©er la fenÃªtre
+	// Créer la fenÃªtre
 	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, 600, 600, SDL_WINDOW_RESIZABLE);
 	if(fenetre == NULL) // En cas dâ€™erreur
 	{
-	printf("Erreur de la creation dâ€™une fenetre: %s",SDL_GetError());
+	printf("Erreur de la creation d'une fenetre: %s",SDL_GetError());
 	SDL_Quit();
 	return EXIT_FAILURE;
 	}
@@ -65,7 +65,7 @@ int main()	{
 	SDL_Rect SrcR,DestR;
 	positionImageSol(&SrcR,&DestR,tailleW,tailleH);
 
-	//Image sprite carrÃ© (joueur)
+	//Image sprite carré (joueur)
 	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
 	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
 	SDL_Rect SrcRc,DestRc;
@@ -76,7 +76,7 @@ int main()	{
 	//Sauvegarde des positions du sprite joueur patate venant de droite
 	int posx_patate_attack_droite = 275;
 
-	//Permet de gÃ©rer la hitbox en y du sprite du joueur
+	//Permet de gérer la hitbox en y du sprite du joueur
 	int posy_patate_attack_bas = DestRc.y + DestRc.h;
 	int posy_patate_attack_haut = DestRc.y;
 
@@ -110,8 +110,8 @@ int main()	{
 	SDL_Rect text_posm; // Position du texte_score_max
 	text_posm.x = 5;
 	text_posm.y = 10;
-	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
-	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
+	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (Ã  récupérer)
+	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
 	SDL_FreeSurface(msg_score_max_surface);
 
 	char msg_score[] = "Score : xx";	//Gestion score actuel
@@ -120,19 +120,19 @@ int main()	{
 	SDL_Rect text_pos; // Position du texte_score_max
 	text_pos.x = 5;
 	text_pos.y = 40;
-	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
-	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
+	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (Ã  récupérer)
+	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
 	SDL_FreeSurface(msg_score_surface);
 
 
-	char msg_menu[] = "Appuyez sur entr\u00E9e pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_score,color);
 	SDL_Rect text_pos_menu; // Position du texte_score_max
 	text_pos_menu.x = 100;
 	text_pos_menu.y = 300;
-	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
-	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (Ã  rÃ©cupÃ©rer)
+	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (Ã  récupérer)
+	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
 	SDL_FreeSurface(msg_menu_surface);
 
 
@@ -188,17 +188,17 @@ int main()	{
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
 				case SDLK_LEFT: spritecarree = sgcarre;joueur->gauche=1;joueur->droit=0;break;
 				case SDLK_RIGHT: spritecarree = sdcarre;joueur->gauche=0;joueur->droit=1;break;
-				//Initialisation aprÃ©s appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
+				//Initialisation aprés appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
 				case SDLK_d:resetScore(pFile);texte_score_max = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
-				//Initialisation aprÃ©s appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
+				//Initialisation aprés appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
 				case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);break;
 				}
 			}
 			SDL_Delay(10);
 			deplacementPatateArriveDroite(&DestRpD,1);
 			deplacementPatateArriveGauche(&DestRpG,1);
-			if(DestRpD.x<-50){spritepatate = spatate;retourPatateArriveDroite(&DestRpD);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprÃ©s avoir quittÃ© l'Ã©cran
-			if(DestRpG.x>650){spritepatateg = spatate;retourPatateArriveGauche(&DestRpG);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprÃ©s avoir quittÃ© l'Ã©cran
+			if(DestRpD.x<-50){spritepatate = spatate;retourPatateArriveDroite(&DestRpD);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprés avoir quitté l'écran
+			if(DestRpG.x>650){spritepatateg = spatate;retourPatateArriveGauche(&DestRpG);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprés avoir quitté l'écran
 
 			if (DestRpD.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
 				if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
@@ -221,7 +221,7 @@ int main()	{
 
 
 			if (best_score == 0){
-				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est supÃ©rieur au score max
+				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est supérieur au score max
 			else{
 				if (meilleur_score_fichier == 0){tick_color_red = -1;}
 				if (tick_color_red >= 0){tick_color_red++;}
@@ -234,6 +234,9 @@ int main()	{
 		}
 	}
 	ecrireScore(score,pFile);
+
+	//Termine tous les sons/Musiques actuel
+	endAudio();
 
 	// Quitter et nettoyer SDL
 	SDL_DestroyTexture(fond);
