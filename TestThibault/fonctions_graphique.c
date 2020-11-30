@@ -33,6 +33,13 @@ void positionImageVie(SDL_Rect* SrcRv,SDL_Rect* DestRv){
 	DestRv->h = 30;
 }
 
+void positionImageSons(SDL_Rect* DestRs){
+	DestRs->x = 500;
+	DestRs->y = 20;
+	DestRs->w = 50;
+	DestRs->h = 50;
+}
+
 void positionImagePatateArriveDroite(SDL_Rect *SrcRp, SDL_Rect *DestRp){
 	SrcRp->x = 0;
 	SrcRp->y = 0;

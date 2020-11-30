@@ -7,6 +7,7 @@
 void positionImageSol();
 void positionImageCarre(SDL_Rect* SrcRc,SDL_Rect* DestRc);
 void positionImageVie(SDL_Rect* SrcRv,SDL_Rect* DestRv);
+void positionImageSons(SDL_Rect* DestRs);
 void positionImagePatateArriveDroite(SDL_Rect *SrcRp, SDL_Rect *DestRp);
 void positionImagePatateArriveGauche(SDL_Rect *SrcRp, SDL_Rect *DestRp);
 void deplacementPatateArriveDroite(SDL_Rect *DestRp,int v);

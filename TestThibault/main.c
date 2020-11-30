@@ -94,6 +94,14 @@ int main()	{
 	SDL_Texture* svie = charger_image_transparente("vie.bmp",ecran,r,g,b);
 	SDL_Rect SrcRv,DestRv;
 	positionImageVie(&SrcRv,&DestRv);
+	//Image Sons
+	SDL_Texture* snosound = charger_image_transparente("soundsprite/musicno.bmp",ecran,r,g,b);
+	SDL_Texture* ssound1 = charger_image_transparente("soundsprite/musicfull-2.bmp",ecran,r,g,b);
+	SDL_Texture* ssound2 = charger_image_transparente("soundsprite/musicfull-1.bmp",ecran,r,g,b);
+	SDL_Texture* ssound3 = charger_image_transparente("soundsprite/musicfull.bmp",ecran,r,g,b);
+	SDL_Rect DestRs;
+	positionImageSons(&DestRs);
+
 
 	//Gestion affichage texte_score_max pour score
 	TTF_Init(); 
@@ -162,6 +170,13 @@ int main()	{
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);
 			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
+
+			if (audio == 0){SDL_RenderCopy(ecran, snosound, NULL, &DestRs);}
+			else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
+			else if(audio > 5 && audio <= 10){SDL_RenderCopy(ecran, ssound2, NULL, &DestRs);}
+			else{SDL_RenderCopy(ecran, ssound3, NULL, &DestRs);}
+
+			
 			SDL_RenderPresent(ecran);
 			while( SDL_PollEvent( &evenements ) )
 			switch(evenements.type){
@@ -257,9 +272,12 @@ int main()	{
 	endAudio();
 
 	// Quitter et nettoyer SDL
-	SDL_DestroyTexture(fond);
-	SDL_DestroyTexture(sol);
-	SDL_DestroyTexture(spritecarree);
+	SDL_DestroyTexture(fond);SDL_DestroyTexture(sol);
+	SDL_DestroyTexture(spritecarree);SDL_DestroyTexture(sdcarre);SDL_DestroyTexture(sgcarre);
+	SDL_DestroyTexture(spatate);SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spritepatateg);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);
+	SDL_DestroyTexture(svie);
+	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);
+	SDL_DestroyTexture(ssound1);SDL_DestroyTexture(ssound2);SDL_DestroyTexture(ssound3);SDL_DestroyTexture(snosound);
 	//SDL_DestroyTexture(sprites);
 	SDL_DestroyRenderer(ecran);
 	SDL_DestroyWindow(fenetre);
