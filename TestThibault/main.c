@@ -5,7 +5,7 @@
 
 int main()	{
 	SDL_Window* fenetre; // Déclaration de la fenÃªtre
-	SDL_Event evenements; // Ã‰vénements liés Ã  la fenÃªtre
+	SDL_Event evenements; // événements liés Ã  la fenÃªtre
 	bool terminer = false;
 	//Structure gestion joueur
 	typedef struct joueur_s joueur_t;
@@ -33,10 +33,10 @@ int main()	{
 	return EXIT_FAILURE;
 	}
 
-	// Créer la fenÃªtre
+	// Créer la fenêtre
 	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, 600, 600, SDL_WINDOW_RESIZABLE);
-	if(fenetre == NULL) // En cas dâ€™erreur
+	if(fenetre == NULL) // En cas d'erreur
 	{
 	printf("Erreur de la creation d'une fenetre: %s",SDL_GetError());
 	SDL_Quit();
@@ -142,6 +142,8 @@ int main()	{
 
 	bool menu = true;
 
+	bool patate_interval = false;
+
 	// Boucle principale
 	while(!terminer){
 		if(menu){
@@ -156,7 +158,7 @@ int main()	{
 
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
-				case SDLK_RETURN:menu = false; break;
+				case SDLK_RETURN:menu = false;retourPatateArriveDroite(&DestRpD);retourPatateArriveGauche(&DestRpG);spritepatate = spatate;spritepatateg = spatate;break;
 				}
 			}
 		}
@@ -195,17 +197,19 @@ int main()	{
 				}
 			}
 			SDL_Delay(10);
-			deplacementPatateArriveDroite(&DestRpD,1);
+			deplacementPatateArriveDroite(&DestRpD,2);
 			deplacementPatateArriveGauche(&DestRpG,1);
-			if(DestRpD.x<-50){spritepatate = spatate;retourPatateArriveDroite(&DestRpD);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprés avoir quitté l'écran
+			if(DestRpD.x<-50){spritepatate = spatate;retourPatateArriveDroite(&DestRpD);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate_interval = false;} //Retour de la patate venant de droite aprés avoir quitté l'écran
 			if(DestRpG.x>650){spritepatateg = spatate;retourPatateArriveGauche(&DestRpG);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprés avoir quitté l'écran
 
-			if (DestRpD.x == posx_patate_attack_gauche){//Gestion score plus mort ou vie de la patate
-				if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
-					if (joueur->droit==1){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-					if (joueur->gauche==1){spritepatate = spatate_alive;joueur->vie--;}
+			if (DestRpD.x >= posx_patate_attack_gauche-1 && DestRpD.x <= posx_patate_attack_gauche+1){//Gestion score plus mort ou vie de la patate
+				if (!patate_interval){
+					if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
+						if (joueur->droit==1){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
+						if (joueur->gauche==1){spritepatate = spatate_alive;joueur->vie--;}
+					}
+					patate_interval = true;
 				}
-
 			}
 			if (DestRpG.x == posx_patate_attack_droite-DestRpG.w){//Gestion score plus mort ou vie de la patate
 				if(DestRpG.y > posy_patate_attack_haut && DestRpG.y < posy_patate_attack_bas){
