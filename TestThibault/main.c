@@ -24,7 +24,8 @@ int main()	{
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
 	//Demarrage musique
-	playMusic("road.wav", 8);
+	int audio = 8;
+	playMusic("road.wav", audio);
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) // Initialisation de la SDL
 	{
@@ -135,6 +136,16 @@ int main()	{
 	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
 	SDL_FreeSurface(msg_menu_surface);
 
+	char msg_menu_sons[] = "Appuyez sur 'p' pour monter le sons et 'm' pour le diminuer";	//Gestion menu
+	SDL_Texture* texte_menu_sons = charger_texte(msg_menu_sons,ecran,font,color);
+	SDL_Surface * msg_menu_sons_surface = TTF_RenderText_Solid(font,msg_score,color);
+	SDL_Rect text_pos_menu_sons; // Position du texte_score_max
+	text_pos_menu_sons.x = 5;
+	text_pos_menu_sons.y = 40;
+	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (Ã  récupérer)
+	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
+	SDL_FreeSurface(msg_menu_sons_surface);
+
 
 	SDL_Texture* spritecarree = sdcarre; //Texture tampon du du joueur
 	SDL_Texture* spritepatate = spatate; //Texture tampon de la patate
@@ -150,6 +161,7 @@ int main()	{
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);
+			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
 			SDL_RenderPresent(ecran);
 			while( SDL_PollEvent( &evenements ) )
 			switch(evenements.type){
@@ -159,6 +171,8 @@ int main()	{
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
 				case SDLK_RETURN:menu = false;retourPatateArriveDroite(&DestRpD);retourPatateArriveGauche(&DestRpG);spritepatate = spatate;spritepatateg = spatate;break;
+				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
+				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
 				}
 			}
 		}
