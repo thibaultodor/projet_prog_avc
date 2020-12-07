@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "fonctions_score.h"
+#include "fonctions_jeu.h"
 #include "fonctions_graphique.h"
 #include "audio.h"
 
@@ -24,6 +25,11 @@ int main()	{
 	patate_t *pG=malloc(sizeof(patate_t));
 	patate_t *pD=malloc(sizeof(patate_t));
 
+
+	patate_t *patate[4];
+	for(int i=0;i<4;i++){
+		patate[i]=malloc(sizeof(patate_t));
+	}
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();

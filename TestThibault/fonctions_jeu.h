@@ -1,9 +1,7 @@
 #ifndef FONCTIONS_JEU_H
 #define FONCTIONS_JEU_H
-
+#include "fonctions_graphique.h"
 //<---- Fonction servant a gérer le jeu
-
-void positionScore();
-}
+void creerPatate(patate_t *patate,int droit, int gauche,int type);
 
 #endif
