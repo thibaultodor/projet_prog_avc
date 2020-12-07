@@ -4,8 +4,8 @@
 #include "audio.h"
 
 int main()	{
-	SDL_Window* fenetre; // Déclaration de la fenÃªtre
-	SDL_Event evenements; // événements liés Ã  la fenÃªtre
+	SDL_Window* fenetre; // D?claration de la fenêtre
+	SDL_Event evenements; // ?v?nements li?s à la fenêtre
 	bool terminer = false;
 	//Structure gestion joueur
 	typedef struct joueur_s joueur_t;
@@ -19,6 +19,10 @@ int main()	{
 	joueur->vie=3;
 	joueur->droit=1;
 	joueur->gauche=0;
+
+	//Déclaration patate
+	patate_t *pG=malloc(sizeof(patate_t));
+	patate_t *pD=malloc(sizeof(patate_t));
 
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
@@ -34,7 +38,7 @@ int main()	{
 	return EXIT_FAILURE;
 	}
 
-	// Créer la fenêtre
+	// Cr?er la fen?tre
 	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, 600, 600, SDL_WINDOW_RESIZABLE);
 	if(fenetre == NULL) // En cas d'erreur
@@ -66,18 +70,18 @@ int main()	{
 	SDL_Rect SrcR,DestR;
 	positionImageSol(&SrcR,&DestR,tailleW,tailleH);
 
-	//Image sprite carré (joueur)
+	//Image sprite carr? (joueur)
 	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
 	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
-	SDL_Rect SrcRc,DestRc;
-	positionImageCarre(&SrcRc,&DestRc);
+	SDL_Rect DestRc;
+	positionImageCarre(&DestRc);
 
 	//Sauvegarde des positions du sprite joueur patate venant de gauche
 	int posx_patate_attack_gauche = DestRc.x + DestRc.w;
 	//Sauvegarde des positions du sprite joueur patate venant de droite
 	int posx_patate_attack_droite = 275;
 
-	//Permet de gérer la hitbox en y du sprite du joueur
+	//Permet de g?rer la hitbox en y du sprite du joueur
 	int posy_patate_attack_bas = DestRc.y + DestRc.h;
 	int posy_patate_attack_haut = DestRc.y;
 
@@ -85,15 +89,14 @@ int main()	{
 	SDL_Texture* spatate = charger_image("sprite_patate.bmp",ecran);
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
 	SDL_Texture* spatate_ko = charger_image("sprite_patate_degat.bmp",ecran);
-	SDL_Rect SrcRp,DestRpD,DestRpG;
-	positionImagePatateArriveDroite(&SrcRp,&DestRpD);
-	positionImagePatateArriveGauche(&SrcRp,&DestRpG);
+	positionImagePatateArriveDroite(pD);
+	positionImagePatateArriveGauche(pG);
 
 	//Image Vie
 	Uint8 r = 0, g = 255, b = 255;
 	SDL_Texture* svie = charger_image_transparente("vie.bmp",ecran,r,g,b);
-	SDL_Rect SrcRv,DestRv;
-	positionImageVie(&SrcRv,&DestRv);
+	SDL_Rect DestRv;
+	positionImageVie(&DestRv);
 	//Image Sons
 	SDL_Texture* snosound = charger_image_transparente("soundsprite/musicno.bmp",ecran,r,g,b);
 	SDL_Texture* ssound1 = charger_image_transparente("soundsprite/musicfull-2.bmp",ecran,r,g,b);
@@ -119,8 +122,8 @@ int main()	{
 	SDL_Rect text_posm; // Position du texte_score_max
 	text_posm.x = 5;
 	text_posm.y = 10;
-	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (Ã  récupérer)
-	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
+	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (à r?cup?rer)
+	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
 	SDL_FreeSurface(msg_score_max_surface);
 
 	char msg_score[] = "Score : xx";	//Gestion score actuel
@@ -129,8 +132,8 @@ int main()	{
 	SDL_Rect text_pos; // Position du texte_score_max
 	text_pos.x = 5;
 	text_pos.y = 40;
-	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (Ã  récupérer)
-	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
+	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (à r?cup?rer)
+	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
 	SDL_FreeSurface(msg_score_surface);
 
 
@@ -140,8 +143,8 @@ int main()	{
 	SDL_Rect text_pos_menu; // Position du texte_score_max
 	text_pos_menu.x = 100;
 	text_pos_menu.y = 300;
-	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (Ã  récupérer)
-	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
+	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
 	SDL_FreeSurface(msg_menu_surface);
 
 	char msg_menu_sons[] = "Appuyez sur 'p' pour monter le sons et 'm' pour le diminuer";	//Gestion menu
@@ -150,8 +153,8 @@ int main()	{
 	SDL_Rect text_pos_menu_sons; // Position du texte_score_max
 	text_pos_menu_sons.x = 5;
 	text_pos_menu_sons.y = 40;
-	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (Ã  récupérer)
-	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (Ã  récupérer)
+	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
 	SDL_FreeSurface(msg_menu_sons_surface);
 
 
@@ -185,7 +188,7 @@ int main()	{
 
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
-				case SDLK_RETURN:menu = false;retourPatateArriveDroite(&DestRpD);retourPatateArriveGauche(&DestRpG);spritepatate = spatate;spritepatateg = spatate;break;
+				case SDLK_RETURN:menu = false;retourPatateArriveDroite(&pD->DestR);retourPatateArriveGauche(&pG->DestR);spritepatate = spatate;spritepatateg = spatate;break;
 				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
 				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
 				}
@@ -196,14 +199,14 @@ int main()	{
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 	    	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
-	    	SDL_RenderCopy(ecran, spritecarree, &SrcRc, &DestRc);
-	    	SDL_RenderCopy(ecran, spritepatate, &SrcRp, &DestRpD);//Gestion patate venant de droite
-	    	SDL_RenderCopy(ecran, spritepatateg, &SrcRp, &DestRpG);//Gestion patate venant de gauche
+	    	SDL_RenderCopy(ecran, spritecarree, NULL, &DestRc);
+	    	SDL_RenderCopy(ecran, spritepatate, NULL, &pD->DestR);//Gestion patate venant de droite
+	    	SDL_RenderCopy(ecran, spritepatateg, NULL, &pG->DestR);//Gestion patate venant de gauche
 	    	SDL_RenderCopy(ecran, texte_score_max, NULL, &text_posm);
 	    	SDL_RenderCopy(ecran, texte_score, NULL, &text_pos);
 	    	for(int i = 0;i!=joueur->vie;i++){
 	    		DestRv.x = DestRv.x + DestRv.w + 10;
-	    		SDL_RenderCopy(ecran, svie, &SrcRv, &DestRv);
+	    		SDL_RenderCopy(ecran, svie, NULL, &DestRv);
 	    	}
 	    	DestRv.x = 400;
 	    	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
@@ -219,29 +222,29 @@ int main()	{
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
 				case SDLK_LEFT: spritecarree = sgcarre;joueur->gauche=1;joueur->droit=0;break;
 				case SDLK_RIGHT: spritecarree = sdcarre;joueur->gauche=0;joueur->droit=1;break;
-				//Initialisation aprés appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
+				//Initialisation apr?s appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
 				case SDLK_d:resetScore(pFile);texte_score_max = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
-				//Initialisation aprés appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
+				//Initialisation apr?s appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
 				case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);break;
 				}
 			}
 			SDL_Delay(10);
-			deplacementPatateArriveDroite(&DestRpD,2);
-			deplacementPatateArriveGauche(&DestRpG,1);
-			if(DestRpD.x<-50){spritepatate = spatate;retourPatateArriveDroite(&DestRpD);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate_interval = false;} //Retour de la patate venant de droite aprés avoir quitté l'écran
-			if(DestRpG.x>650){spritepatateg = spatate;retourPatateArriveGauche(&DestRpG);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite aprés avoir quitté l'écran
+			deplacementPatateArriveDroite(&pD->DestR,2);
+			deplacementPatateArriveGauche(&pG->DestR,1);
+			if(pD->DestR.x<-50){spritepatate = spatate;retourPatateArriveDroite(&pD->DestR);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate_interval = false;} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
+			if(pG->DestR.x>650){spritepatateg = spatate;retourPatateArriveGauche(&pG->DestR);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
 
-			if (DestRpD.x >= posx_patate_attack_gauche-1 && DestRpD.x <= posx_patate_attack_gauche+1){//Gestion score plus mort ou vie de la patate
+			if (pD->DestR.x >= posx_patate_attack_gauche-1 && pD->DestR.x <= posx_patate_attack_gauche+1){//Gestion score plus mort ou vie de la patate
 				if (!patate_interval){
-					if(DestRpD.y > posy_patate_attack_haut && DestRpD.y < posy_patate_attack_bas){
+					if(pD->DestR.y > posy_patate_attack_haut && pD->DestR.y < posy_patate_attack_bas){
 						if (joueur->droit==1){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
 						if (joueur->gauche==1){spritepatate = spatate_alive;joueur->vie--;}
 					}
 					patate_interval = true;
 				}
 			}
-			if (DestRpG.x == posx_patate_attack_droite-DestRpG.w){//Gestion score plus mort ou vie de la patate
-				if(DestRpG.y > posy_patate_attack_haut && DestRpG.y < posy_patate_attack_bas){
+			if (pG->DestR.x == posx_patate_attack_droite-pG->DestR.w){//Gestion score plus mort ou vie de la patate
+				if(pG->DestR.y > posy_patate_attack_haut && pG->DestR.y < posy_patate_attack_bas){
 					if (joueur->gauche==1){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
 					if (joueur->droit==1){spritepatateg = spatate_alive;joueur->vie--;}
 				}
@@ -254,7 +257,7 @@ int main()	{
 
 
 			if (best_score == 0){
-				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est supérieur au score max
+				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est sup?rieur au score max
 			else{
 				if (meilleur_score_fichier == 0){tick_color_red = -1;}
 				if (tick_color_red >= 0){tick_color_red++;}
