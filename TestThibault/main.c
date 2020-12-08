@@ -21,15 +21,7 @@ int main()	{
 	joueur->droit=1;
 	joueur->gauche=0;
 
-	//Déclaration patate
-	patate_t *pG=malloc(sizeof(patate_t));
-	patate_t *pD=malloc(sizeof(patate_t));
-
-
-	patate_t *patate[4];
-	for(int i=0;i<4;i++){
-		patate[i]=malloc(sizeof(patate_t));
-	}
+	
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
@@ -62,7 +54,7 @@ int main()	{
 	pFile=fopen ("score.txt","r");
 
 	//Initialisation renderer
-	SDL_Renderer * ecran = SDL_CreateRenderer(fenetre, -1, 0);
+	SDL_Renderer *ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
 	SDL_Texture* fond = charger_image("green.bmp",ecran);
@@ -91,15 +83,31 @@ int main()	{
 	int posy_patate_attack_bas = DestRc.y + DestRc.h;
 	int posy_patate_attack_haut = DestRc.y;
 
+	Uint8 r = 0, g = 255, b = 255;
+
 	//Image sprite patate
-	SDL_Texture* spatate = charger_image("sprite_patate.bmp",ecran);
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
 	SDL_Texture* spatate_ko = charger_image("sprite_patate_degat.bmp",ecran);
-	positionImagePatateArriveDroite(pD);
-	positionImagePatateArriveGauche(pG);
+	//Déclaration patate plus positionnement
+	SDL_Texture *simagepatate[4];
+	simagepatate[0] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
+	simagepatate[1] = charger_image_transparente("PATATE/patate1.bmp",ecran,r,g,b);
+	simagepatate[2] = charger_image_transparente("PATATE/patate2.bmp",ecran,r,g,b);
+	simagepatate[3] = charger_image_transparente("PATATE/patate3.bmp",ecran,r,g,b);
+
+
+	patate_t *patate[4];
+	SDL_Texture *spatate[4];
+	bool sens=true;
+	for(int i=1;i<5;i++){
+		patate[i-1]=malloc(sizeof(patate_t));
+		if(i%2==0){sens=true;}
+      	else{sens=false;}
+      	creerPatate(patate[i-1],sens,i);
+      	spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
+	}
 
 	//Image Vie
-	Uint8 r = 0, g = 255, b = 255;
 	SDL_Texture* svie = charger_image_transparente("vie.bmp",ecran,r,g,b);
 	SDL_Rect DestRv;
 	positionImageVie(&DestRv);
@@ -115,7 +123,7 @@ int main()	{
 	//Gestion affichage texte_score_max pour score
 	TTF_Init(); 
 	TTF_Font *font = TTF_OpenFont("./arial.ttf",25);
-	TTF_Font *fontmenu = TTF_OpenFont("./arial.ttf",50);
+	TTF_Font *fontmenu = TTF_OpenFont("./arial.ttf",80);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
@@ -150,7 +158,7 @@ int main()	{
 	text_pos_menu.x = 100;
 	text_pos_menu.y = 300;
 	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_pos_menu.h = msg_menu_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (à r?cup?rer)
 	SDL_FreeSurface(msg_menu_surface);
 
 	char msg_menu_sons[] = "Appuyez sur 'p' pour monter le sons et 'm' pour le diminuer";	//Gestion menu
@@ -165,12 +173,9 @@ int main()	{
 
 
 	SDL_Texture* spritecarree = sdcarre; //Texture tampon du du joueur
-	SDL_Texture* spritepatate = spatate; //Texture tampon de la patate
-	SDL_Texture* spritepatateg = spatate; //Texture tampon de la patate
+	SDL_Texture* spritepatate = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b); //Texture tampon de la patate
 
 	bool menu = true;
-
-	bool patate_interval = false;
 
 	// Boucle principale
 	while(!terminer){
@@ -179,6 +184,22 @@ int main()	{
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);
 			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
+
+
+			SDL_Delay(10);
+			for(int i=0;i<4;i++){
+
+				//GESTION ROTATION IMAGE PATATE
+				if (patate[i]->RotationImage == 20*(i+1)){spatate[i] = simagepatate[1];}
+				else if (patate[i]->RotationImage == 40*(i+1)){spatate[i] = simagepatate[2];}
+				else if (patate[i]->RotationImage == 80*(i+1)){spatate[i] = simagepatate[3];}
+				else if (patate[i]->RotationImage == 100*(i+1)){spatate[i] = simagepatate[0];patate[i]->RotationImage=0;}
+
+				SDL_RenderCopy(ecran, spatate[i], NULL, &(patate[i]->DestR));
+	    		deplacementPatate(patate[i]);
+				if(patate[i]->DestR.x<-50 && patate[i]->droit == true){patate[i]->DestR.x = 600;patate[i]->DestR.y = rand() % 500;patate[i]->RotationImage=0;}
+				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){patate[i]->DestR.x = -50;patate[i]->DestR.y = rand() % 500;patate[i]->RotationImage=0;}
+			}
 
 			if (audio == 0){SDL_RenderCopy(ecran, snosound, NULL, &DestRs);}
 			else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
@@ -194,7 +215,7 @@ int main()	{
 
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
-				case SDLK_RETURN:menu = false;retourPatateArriveDroite(&pD->DestR);retourPatateArriveGauche(&pG->DestR);spritepatate = spatate;spritepatateg = spatate;break;
+				case SDLK_RETURN:menu = false;for(int i=0;i<4;i++){retourPatate(patate[i]);patate[i]->DestR.y = 600-200;spatate[i] = spritepatate;};break;
 				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
 				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
 				}
@@ -206,8 +227,7 @@ int main()	{
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 	    	SDL_RenderCopy(ecran, sol, &SrcR, &DestR);
 	    	SDL_RenderCopy(ecran, spritecarree, NULL, &DestRc);
-	    	SDL_RenderCopy(ecran, spritepatate, NULL, &pD->DestR);//Gestion patate venant de droite
-	    	SDL_RenderCopy(ecran, spritepatateg, NULL, &pG->DestR);//Gestion patate venant de gauche
+	    	for(int i=0;i<4;i++){SDL_RenderCopy(ecran, spatate[i], NULL, &(patate[i]->DestR));}
 	    	SDL_RenderCopy(ecran, texte_score_max, NULL, &text_posm);
 	    	SDL_RenderCopy(ecran, texte_score, NULL, &text_pos);
 	    	for(int i = 0;i!=joueur->vie;i++){
@@ -235,30 +255,35 @@ int main()	{
 				}
 			}
 			SDL_Delay(10);
-			deplacementPatateArriveDroite(&pD->DestR,2);
-			deplacementPatateArriveGauche(&pG->DestR,1);
-			if(pD->DestR.x<-50){spritepatate = spatate;retourPatateArriveDroite(&pD->DestR);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate_interval = false;} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
-			if(pG->DestR.x>650){spritepatateg = spatate;retourPatateArriveGauche(&pG->DestR);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
+			for(int i=0;i<4;i++){
+				deplacementPatate(patate[i]);
+				if(patate[i]->DestR.x<-50 && patate[i]->droit == true){spatate[i] = spritepatate;retourPatate(patate[i]);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate[i]->patate_interval = false;} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
+				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){spatate[i] = spritepatate;retourPatate(patate[i]);playSound("Arrive.wav", SDL_MIX_MAXVOLUME / 4);patate[i]->patate_interval = false;} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
 
-			if (pD->DestR.x >= posx_patate_attack_gauche-1 && pD->DestR.x <= posx_patate_attack_gauche+1){//Gestion score plus mort ou vie de la patate
-				if (!patate_interval){
-					if(pD->DestR.y > posy_patate_attack_haut && pD->DestR.y < posy_patate_attack_bas){
-						if (joueur->droit==1){spritepatate = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-						if (joueur->gauche==1){spritepatate = spatate_alive;joueur->vie--;}
+				if (patate[i]->DestR.x >= posx_patate_attack_gauche-3 && patate[i]->DestR.x <= posx_patate_attack_gauche+3 && patate[i]->droit == true){//Gestion score plus mort ou vie de la patate
+					if(patate[i]->patate_interval == false){
+						if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
+							if (joueur->droit==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
+							if (joueur->gauche==1){spatate[i] = spatate_alive;joueur->vie--;}
+						}
+						patate[i]->patate_interval = true;
 					}
-					patate_interval = true;
 				}
-			}
-			if (pG->DestR.x == posx_patate_attack_droite-pG->DestR.w){//Gestion score plus mort ou vie de la patate
-				if(pG->DestR.y > posy_patate_attack_haut && pG->DestR.y < posy_patate_attack_bas){
-					if (joueur->gauche==1){spritepatateg = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
-					if (joueur->droit==1){spritepatateg = spatate_alive;joueur->vie--;}
+				else if (patate[i]->DestR.x >= posx_patate_attack_droite-patate[i]->DestR.w-3 && patate[i]->DestR.x <= posx_patate_attack_droite-patate[i]->DestR.w+3 && patate[i]->droit == false){//Gestion score plus mort ou vie de la patate
+					if(patate[i]->patate_interval == false){	
+						if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
+							if (joueur->gauche==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav", SDL_MIX_MAXVOLUME / 4);}
+							if (joueur->droit==1){spatate[i] = spatate_alive;joueur->vie--;}
+						}
+						patate[i]->patate_interval = true;
+					}
 				}
-
 			}
 
 			if (joueur->vie <= 0){
-				ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);joueur->vie=3;menu = true;
+				ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);
+				best_score=0;meilleur_score_fichier = lireHighScore(pFile);joueur->vie=3;menu = true;
+				for(int i=0;i<4;i++){patate[i]->patate_interval = false;spatate[i] = spritepatate;retourPatate(patate[i]);patate[i]->DestR.y = rand() % 500;}
 			}
 
 
@@ -283,7 +308,8 @@ int main()	{
 	// Quitter et nettoyer SDL
 	SDL_DestroyTexture(fond);SDL_DestroyTexture(sol);
 	SDL_DestroyTexture(spritecarree);SDL_DestroyTexture(sdcarre);SDL_DestroyTexture(sgcarre);
-	SDL_DestroyTexture(spatate);SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spritepatateg);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);
+	for(int i=0;i<4;i++){SDL_DestroyTexture(spatate[i]);}
+	SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);
 	SDL_DestroyTexture(svie);
 	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);
 	SDL_DestroyTexture(ssound1);SDL_DestroyTexture(ssound2);SDL_DestroyTexture(ssound3);SDL_DestroyTexture(snosound);

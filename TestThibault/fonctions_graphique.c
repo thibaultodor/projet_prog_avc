@@ -26,38 +26,21 @@ void positionImageVie(SDL_Rect* DestRv){
 }
 
 void positionImageSons(SDL_Rect* DestRs){
-	DestRs->x = 500;
-	DestRs->y = 20;
+	DestRs->x = 540;
+	DestRs->y = 540;
 	DestRs->w = 50;
 	DestRs->h = 50;
 }
 
-void positionImagePatateArriveDroite(patate_t *pD){
-	pD->DestR.x = 600-50;
-	pD->DestR.y = 600-200;
-	pD->DestR.w = 50;
-	pD->DestR.h = 50;
+void deplacementPatate(patate_t *P){
+	if(P->droit == true){P->DestR.x = P->DestR.x - P->vitesse;}
+	else{P->DestR.x = P->DestR.x + P->vitesse;}	
+	P->RotationImage++;
 }
 
-void positionImagePatateArriveGauche(patate_t *pG){
-	pG->DestR.x = -50;
-	pG->DestR.y = 600-200;
-	pG->DestR.w = 50;
-	pG->DestR.h = 50;
-}
 
-void deplacementPatateArriveDroite(SDL_Rect *DestRp,int v){
-	DestRp->x = DestRp->x - v;
-}
-
-void deplacementPatateArriveGauche(SDL_Rect *DestRp,int v){
-	DestRp->x = DestRp->x + v;
-}
-
-void retourPatateArriveDroite(SDL_Rect *DestRp){
-	DestRp->x = 600;
-}
-
-void retourPatateArriveGauche(SDL_Rect *DestRp){
-	DestRp->x = -50;
+void retourPatate(patate_t *P){
+	if(P->droit == true){P->DestR.x = 600;}
+	else{P->DestR.x = -50;}
+	P->RotationImage=0;
 }
