@@ -5,8 +5,8 @@
 #include "audio.h"
 
 int main()	{
-	SDL_Window* fenetre; // D?claration de la fenêtre
-	SDL_Event evenements; // ?v?nements li?s à la fenêtre
+	SDL_Window* fenetre; // D?claration de la fen?tre
+	SDL_Event evenements; // ?v?nements li?s ? la fen?tre
 	bool terminer = false;
 	//Structure gestion joueur
 	typedef struct joueur_s joueur_t;
@@ -57,7 +57,7 @@ int main()	{
 	SDL_Renderer *ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
-	SDL_Texture* fond = charger_image("green.bmp",ecran);
+	SDL_Texture* fond = charger_image("fond_cuisine.bmp",ecran);
 
     //Image sol
 	SDL_Texture* sol = charger_image("fond.bmp",ecran);
@@ -66,11 +66,11 @@ int main()	{
 	int tailleW = surface_obj->w;
 	int tailleH = surface_obj->h;
 	SDL_Rect SrcR,DestR;
-	positionImageSol(&SrcR,&DestR,tailleW,tailleH);
+	//positionImageSol(&SrcR,&DestR,tailleW,tailleH);
 
 	//Image sprite carr? (joueur)
-	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
-	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
+	SDL_Texture* sdcarre = charger_image("cuisto_droite.bmp",ecran);
+	SDL_Texture* sgcarre = charger_image("cuisto_gauche.bmp",ecran);
 	SDL_Rect DestRc;
 	positionImageCarre(&DestRc);
 
@@ -88,7 +88,7 @@ int main()	{
 	//Image sprite patate
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
 	SDL_Texture* spatate_ko = charger_image_transparente("sprite_patate_degat.bmp",ecran,r,g,b);
-	//Déclaration patate plus positionnement
+	//D?claration patate plus positionnement
 	SDL_Texture *simagepatate[4];
 	simagepatate[0] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
 	simagepatate[1] = charger_image_transparente("PATATE/patate1.bmp",ecran,r,g,b);
@@ -142,8 +142,8 @@ int main()	{
 	SDL_Rect text_posm; // Position du texte_score_max
 	text_posm.x = 5;
 	text_posm.y = 10;
-	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (? r?cup?rer)
+	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
 	SDL_FreeSurface(msg_score_max_surface);
 
 	char msg_score[] = "Score : xx";	//Gestion score actuel
@@ -152,19 +152,19 @@ int main()	{
 	SDL_Rect text_pos; // Position du texte_score_max
 	text_pos.x = 5;
 	text_pos.y = 40;
-	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (? r?cup?rer)
+	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
 	SDL_FreeSurface(msg_score_surface);
 
 
-	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entr?e pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
 	text_pos_menu.y = 300;
-	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (? r?cup?rer)
 	SDL_FreeSurface(msg_menu_surface);
 
 	char msg_diff[] = "Quel niveau de difficulte ? (f , m ou d)";	//Gestion menu
@@ -173,8 +173,8 @@ int main()	{
 	SDL_Rect text_pos_diff; // Position du texte_score_max
 	text_pos_diff.x = 100;
 	text_pos_diff.y = 300;
-	text_pos_diff.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_pos_diff.h = 50;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_diff.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_diff.h = 50;// Hauteur du texte_score_max en pixels (? r?cup?rer)
 	SDL_FreeSurface(msg_menu_diff);
 
 	char msg_menu_sons[] = "Appuyez sur 'p' pour monter le sons et 'm' pour le diminuer";	//Gestion menu
@@ -183,8 +183,8 @@ int main()	{
 	SDL_Rect text_pos_menu_sons; // Position du texte_score_max
 	text_pos_menu_sons.x = 5;
 	text_pos_menu_sons.y = 40;
-	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (à r?cup?rer)
-	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (à r?cup?rer)
+	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
 	SDL_FreeSurface(msg_menu_sons_surface);
 
 
