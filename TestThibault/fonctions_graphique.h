@@ -13,6 +13,8 @@ struct patate_s{
 	int vitesse;//Par defaut vitesse = 1
 	int RotationImage;
 	bool patate_interval;
+	bool cri_arrive;
+	bool cri_mort;
 	SDL_Rect DestR;//Position de la patate
 };
 

@@ -40,7 +40,10 @@ void deplacementPatate(patate_t *P){
 
 
 void retourPatate(patate_t *P){
-	if(P->droit == true){P->DestR.x = 600;}
-	else{P->DestR.x = -50;}
+	if(P->droit == true){P->DestR.x = 600 + rand() % 400;}
+	else{P->DestR.x = -50 - rand() % 400;}
 	P->RotationImage=0;
+	P->patate_interval=false;
+	P->cri_arrive=false;
+	P->cri_mort=false;
 }
