@@ -130,6 +130,9 @@ int main()	{
 	TTF_Init(); 
 	TTF_Font *font = TTF_OpenFont("./arial.ttf",25);
 	TTF_Font *fontmenu = TTF_OpenFont("./arial.ttf",80);
+	TTF_Font *fontstart = TTF_OpenFont("./arial.ttf",60);
+	TTF_Font *fontoption = TTF_OpenFont("./arial.ttf",60);
+	TTF_Font *fontscore = TTF_OpenFont("./arial.ttf",60);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
@@ -157,15 +160,51 @@ int main()	{
 	SDL_FreeSurface(msg_score_surface);
 
 
-	char msg_menu[] = "Appuyez sur entr?e pour commencer";	//Gestion menu
+	////////////////////MENU///////////////////
+	int swtch = 0;
+	int position_menu_touche = 1;
+	int tick = 0;
+	//Appuyez sur entree
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
-	text_pos_menu.y = 300;
-	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
-	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_menu.y = 250;
+	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
 	SDL_FreeSurface(msg_menu_surface);
+	//Start
+	char msg_start[] = "START";	//Gestion menu
+	SDL_Texture* texte_start = charger_texte(msg_start,ecran,fontstart,color);
+	SDL_Surface * msg_menu_start = TTF_RenderText_Solid(fontstart,msg_start,color);
+	SDL_Rect text_pos_start; // Position du msg
+	text_pos_start.x = 100;
+	text_pos_start.y = 350;
+	text_pos_start.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_start.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	SDL_FreeSurface(msg_menu_start);
+	//Options
+	char msg_option[] = "OPTIONS";	//Gestion menu
+	SDL_Texture* texte_option = charger_texte(msg_option,ecran,fontoption,color);
+	SDL_Surface * msg_menu_option = TTF_RenderText_Solid(fontoption,msg_option,color);
+	SDL_Rect text_pos_option; // Position du msg
+	text_pos_option.x = 100;
+	text_pos_option.y = 400;
+	text_pos_option.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_option.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	SDL_FreeSurface(msg_menu_option);
+	//Score
+	char msg_score_menu[] = "SCORES";	//Gestion menu
+	SDL_Texture* texte_menu_score = charger_texte(msg_score_menu,ecran,fontscore,color);
+	SDL_Surface * msg_menu_score = TTF_RenderText_Solid(fontscore,msg_score_menu,color);
+	SDL_Rect text_pos_scores; // Position du msg
+	text_pos_scores.x = 100;
+	text_pos_scores.y = 450;
+	text_pos_scores.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_scores.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	SDL_FreeSurface(msg_menu_score);
+	///////////////////////////////////////////
 
 	char msg_diff[] = "Quel niveau de difficulte ? (f , m ou d)";	//Gestion menu
 	SDL_Texture* texte_diff = charger_texte(msg_diff,ecran,fontmenu,color);
@@ -193,8 +232,10 @@ int main()	{
 
 	bool menu = true;
 	bool difficulte = false;
+	bool option_sons = false;
 	bool choixdiff = false;
 	bool firstlaunch = true;
+
 
 	// Boucle principale
 	while(!terminer){
@@ -202,8 +243,9 @@ int main()	{
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);
-			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
-
+			SDL_RenderCopy(ecran, texte_start, NULL, &text_pos_start);
+			SDL_RenderCopy(ecran, texte_option, NULL, &text_pos_option);
+			SDL_RenderCopy(ecran, texte_menu_score, NULL, &text_pos_scores);
 
 			if(firstlaunch){
 				nbPatate = 4;
@@ -221,6 +263,16 @@ int main()	{
       			firstlaunch = false;
 			}
 
+			if(position_menu_touche==1){
+				clignotement_texte(&texte_start,&tick,msg_start,fontstart,ecran,&swtch);
+			}
+			else if(position_menu_touche==2){
+				clignotement_texte(&texte_option,&tick,msg_option,fontoption,ecran,&swtch);
+			}
+			else if(position_menu_touche==3){
+				clignotement_texte(&texte_menu_score,&tick,msg_score_menu,fontscore,ecran,&swtch);
+			}
+
 			SDL_Delay(10);
 			for(int i=0;i<nbPatate;i++){
 
@@ -236,11 +288,6 @@ int main()	{
 				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){patate[i]->DestR.x = -50;patate[i]->DestR.y = rand() % 500;patate[i]->RotationImage=0;}
 			}
 
-			if (audio == 0){SDL_RenderCopy(ecran, snosound, NULL, &DestRs);}
-			else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
-			else if(audio > 5 && audio <= 10){SDL_RenderCopy(ecran, ssound2, NULL, &DestRs);}
-			else{SDL_RenderCopy(ecran, ssound3, NULL, &DestRs);}
-
 			
 			SDL_RenderPresent(ecran);
 			while( SDL_PollEvent( &evenements ) )
@@ -251,9 +298,37 @@ int main()	{
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
-				case SDLK_RETURN:menu = false;difficulte = true;break;
-				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
-				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
+
+				case SDLK_RETURN:
+				swtch=1;tick=50;
+				if(position_menu_touche==1){
+					menu = false;
+					difficulte = true;
+				}
+				else if(position_menu_touche==2){
+					menu = false;
+					option_sons = true;
+				}
+				break;
+
+				case SDLK_DOWN:
+				if(position_menu_touche==1){
+					remise_en_noir(&texte_start,&tick,msg_start,fontstart,ecran,&swtch);
+					position_menu_touche=2;
+				}
+				else if(position_menu_touche==2){
+					remise_en_noir(&texte_option,&tick,msg_option,fontoption,ecran,&swtch);
+					position_menu_touche=3;
+				};break;
+
+				case SDLK_UP:
+				if(position_menu_touche==3){
+					remise_en_noir(&texte_menu_score,&tick,msg_score_menu,fontscore,ecran,&swtch);
+					position_menu_touche=2;
+				}else if(position_menu_touche==2){
+					remise_en_noir(&texte_option,&tick,msg_option,fontoption,ecran,&swtch);
+					position_menu_touche=1;
+				};break;
 				}
 			}
 		}
@@ -269,15 +344,22 @@ int main()	{
 
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
-					case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
+				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
 				case SDLK_f: choixdiff = true;nbPatate = 2;break;
 				case SDLK_m: choixdiff = true;nbPatate = 3;break;
 				case SDLK_d: choixdiff = true;nbPatate = 4;break;
+				case SDLK_BACKSPACE:menu = true;difficulte=false;break;
 				}
 			}
 
 			if(choixdiff){
 				for(int i=0;i<nbPatate;i++){free(patate[i]);};
+
+				if (audio == 0){SDL_RenderCopy(ecran, snosound, NULL, &DestRs);}
+				else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
+				else if(audio > 5 && audio <= 10){SDL_RenderCopy(ecran, ssound2, NULL, &DestRs);}
+				else{SDL_RenderCopy(ecran, ssound3, NULL, &DestRs);}
+				SDL_RenderPresent(ecran);
 
 				bool sens=true;
 				for(int i=1;i<nbPatate+1;i++){
@@ -290,6 +372,30 @@ int main()	{
       			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);patate[i]->DestR.y = 600-200;spatate[i] = spritepatate;};
       			difficulte = false;
       			choixdiff = false;
+			}
+		}
+		else if(option_sons){
+			SDL_RenderClear(ecran);
+			SDL_RenderCopy(ecran, fond, NULL, NULL);
+			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
+
+			if (audio == 0){SDL_RenderCopy(ecran, snosound, NULL, &DestRs);}
+			else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
+			else if(audio > 5 && audio <= 10){SDL_RenderCopy(ecran, ssound2, NULL, &DestRs);}
+			else{SDL_RenderCopy(ecran, ssound3, NULL, &DestRs);}
+
+			SDL_RenderPresent(ecran);
+
+			while( SDL_PollEvent( &evenements ) )
+			switch(evenements.type){
+			case SDL_QUIT:terminer = true; break;
+			case SDL_KEYDOWN:
+				switch(evenements.key.keysym.sym){
+				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
+				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
+				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
+				case SDLK_BACKSPACE:menu = true;option_sons=false;break;
+				}
 			}
 		}
 		else{

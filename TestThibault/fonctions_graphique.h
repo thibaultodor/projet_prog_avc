@@ -27,5 +27,7 @@ void positionImageVie(SDL_Rect* DestRv);
 void positionImageSons(SDL_Rect* DestRs);
 void deplacementPatate(patate_t *P);
 void retourPatate(patate_t *P);
+void clignotement_texte (SDL_Texture** t,int* tick,char msg[],TTF_Font *font,SDL_Renderer* renderer,int* swtch);
+void remise_en_noir (SDL_Texture** t,int* tick,char msg[],TTF_Font *font,SDL_Renderer* ecran,int* swtch);
 
 #endif

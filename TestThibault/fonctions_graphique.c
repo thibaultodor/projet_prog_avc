@@ -47,3 +47,20 @@ void retourPatate(patate_t *P){
 	P->cri_arrive=false;
 	P->cri_mort=false;
 }
+
+void clignotement_texte (SDL_Texture** t,int* tick,char msg[],TTF_Font *fontmenu,SDL_Renderer* ecran,int* swtch){
+	if(*tick == 50){
+		if (*swtch==0){SDL_Color color = {250,0,0,0};*swtch=1;SDL_DestroyTexture(*t);*t = charger_texte(msg,ecran,fontmenu,color);}
+		else{SDL_Color color = {0,0,0,0};*swtch=0;SDL_DestroyTexture(*t);*t = charger_texte(msg,ecran,fontmenu,color);}
+		*tick = 0;
+	}
+	else{*tick = *tick+1;}
+}
+
+void remise_en_noir (SDL_Texture** t,int* tick,char msg[],TTF_Font *font,SDL_Renderer* ecran,int* swtch){
+	SDL_Color color = {0,0,0,0};
+	*swtch=0;
+	SDL_DestroyTexture(*t);
+	*t = charger_texte(msg,ecran,font,color);
+	*tick=0;
+}
