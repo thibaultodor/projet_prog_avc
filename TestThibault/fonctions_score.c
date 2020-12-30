@@ -53,6 +53,7 @@ void tabScore(FILE* fichier, int * tab){
         }
     }
     tri(tab,nbLigne(fichier));
+    inverser(tab,nbLigne(fichier));
 }
 
 void tri(int * tab,int N){
@@ -66,5 +67,17 @@ void tri(int * tab,int N){
             }
         }
     }
-    
+}
+
+void inverser(int * tab, int N){
+    int deb=0;
+    int fin=N-1;
+    int temp;
+    while(deb<fin){
+        temp=tab[deb];
+        tab[deb]=tab[fin];
+        tab[fin]=temp;
+        deb++;
+        fin--;
+    }
 }

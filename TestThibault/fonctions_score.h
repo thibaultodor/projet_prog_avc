@@ -16,4 +16,6 @@ void tabScore(FILE* fichier, int * tab);
 
 void tri(int * tab,int N);
 
+void inverser(int * tab, int N);
+
 #endif

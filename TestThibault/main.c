@@ -138,7 +138,7 @@ int main()	{
 	int tick_color_red = 0;
 
 
-	////////////////////////////Score dans interface du jeu (en haut à gauche)///////////////////////////
+	////////////////////////////Score dans interface du jeu (en haut ï¿½ gauche)///////////////////////////
 	int meilleur_score_fichier = lireHighScore(pFile);
 
 	char msg_score_max[] = "Score max : xx";	//Gestion score max
@@ -168,7 +168,7 @@ int main()	{
 	int position_menu_touche = 1;
 	int tick = 0;
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrï¿½e pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
@@ -209,7 +209,7 @@ int main()	{
 	SDL_FreeSurface(msg_menu_score);
 	///////////////////////////////////////////
 
-	/////////////////Message choix difficulté////////////////////
+	/////////////////Message choix difficultï¿½////////////////////
 	char msg_diff[] = "Quel niveau de difficulte ? (f , m ou d)";	//Gestion menu
 	SDL_Texture* texte_diff = charger_texte(msg_diff,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_diff = TTF_RenderText_Solid(fontmenu,msg_diff,color);
@@ -434,7 +434,7 @@ int main()	{
 			if(firstlecturescore){
 				int tab[5];
 
-				//tabScore(pFile,tab);  /////////////////////////////POSE UN GROS PROBLEME DE MEMOIRE ?! ////////////////////////////
+				tabScore(pFile,tab);  /////////////////////////////POSE UN GROS PROBLEME DE MEMOIRE ?! ////////////////////////////
 
 				texte_scoreboard1er = charger_scoreboard(tab,0,ecran,font,color);
 				texte_scoreboard2eme = charger_scoreboard(tab,1,ecran,font,color);
