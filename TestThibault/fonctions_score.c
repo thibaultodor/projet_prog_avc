@@ -29,3 +29,41 @@ void resetScore(FILE* fichier){
         fputs("",fichier);
     }
 }
+
+int nbLigne(FILE* fichier){
+    int nbligne = 0;
+    char chaine[TAILLE_MAX];
+    fichier=fopen("score.txt","r");
+    if(fichier!=NULL){
+        while(fgets(chaine,TAILLE_MAX,fichier)){
+            nbligne++;
+        }
+    }
+    return nbligne;
+}
+
+void tabScore(FILE* fichier, int * tab){
+    char chaine[TAILLE_MAX];
+    fichier=fopen("score.txt","r");
+    if(fichier!=NULL){
+        int i=0;
+        while(fgets(chaine,TAILLE_MAX,fichier)&&i<=nbLigne(fichier)){
+            tab[i]=atoi(chaine);
+            i++;
+        }
+    }
+    tri(tab,nbLigne(fichier));
+}
+
+void tri(int * tab,int N){
+    int i,j,c;
+    for(i=0;i<N;i++){
+        for(j=i+1;j<N;j++){
+            if(tab[i]>tab[j]){
+                c=tab[i];
+                tab[i]=tab[j];
+                tab[j]=c;
+            }
+        }
+    }
+}

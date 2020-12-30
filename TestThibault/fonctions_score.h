@@ -10,4 +10,10 @@ int lireHighScore(FILE* fichier);
 
 void resetScore(FILE* fichier);
 
+int nbLigne(FILE* fichier);
+
+void tabScore(FILE* fichier, int * tab);
+
+void tri(int * tab,int N);
+
 #endif
