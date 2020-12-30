@@ -66,4 +66,5 @@ void tri(int * tab,int N){
             }
         }
     }
+    
 }
