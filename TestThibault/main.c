@@ -63,10 +63,8 @@ int main()	{
 	SDL_Texture* sol = charger_image("fond.bmp",ecran);
 	SDL_Surface * surface_obj = SDL_LoadBMP("fond.bmp");
 	SDL_FreeSurface(surface_obj);
-	int tailleW = surface_obj->w;
-	int tailleH = surface_obj->h;
 	SDL_Rect SrcR,DestR;
-	//positionImageSol(&SrcR,&DestR,tailleW,tailleH);
+	//positionImageSol(&SrcR,&DestR,surface_obj->w,surface_obj->h);
 
 	//Image sprite carr? (joueur)
 	SDL_Texture* sdcarre = charger_image("cuisto_droite.bmp",ecran);
@@ -168,7 +166,7 @@ int main()	{
 	int position_menu_touche = 1;
 	int tick = 0;
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entr�e pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
@@ -235,15 +233,6 @@ int main()	{
 
 	//////////////////////////SCOREBOARD/////////////////////////////////
 
-	/*
-	//Peut etre utile
-	char scoreboard1er[]= "1er -> xx POINTS";
-	char scoreboard2eme[]= "2eme -> xx POINTS";
-	char scoreboard3eme[]= "3eme -> xx POINTS";
-	char scoreboard4eme[]= "4eme -> xx POINTS";
-	char scoreboard5eme[]= "5eme -> xx POINTS";
-	*/
-
 	SDL_Texture* texte_scoreboard1er;
 	SDL_Texture* texte_scoreboard2eme;
 	SDL_Texture* texte_scoreboard3eme;
@@ -266,7 +255,7 @@ int main()	{
 	bool scoreboard = false;
 	bool choixdiff = false;
 	bool firstlaunch = true;
-	bool firstlecturescore = true;
+	bool firstlecturescore = false;
 
 
 	// Boucle principale
@@ -344,6 +333,7 @@ int main()	{
 				else if(position_menu_touche==3){
 					menu = false;
 					scoreboard = true;
+					firstlecturescore=true;
 				}
 				break;
 
@@ -432,7 +422,7 @@ int main()	{
 		else if(scoreboard){
 
 			if(firstlecturescore){
-				int tab[5];
+				int tab[nbLigne(pFile)];
 
 				tabScore(pFile,tab);  /////////////////////////////POSE UN GROS PROBLEME DE MEMOIRE ?! ////////////////////////////
 
@@ -441,23 +431,23 @@ int main()	{
 				texte_scoreboard3eme = charger_scoreboard(tab,2,ecran,font,color);
 				texte_scoreboard4eme = charger_scoreboard(tab,3,ecran,font,color);
 				texte_scoreboard5eme = charger_scoreboard(tab,4,ecran,font,color);
+
+				SDL_RenderClear(ecran);
+				SDL_RenderCopy(ecran, fond, NULL, NULL);
+				SDL_RenderCopy(ecran, texte_scoreboard1er, NULL, &text_pos_scoreboard);
+				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+				SDL_RenderCopy(ecran, texte_scoreboard2eme, NULL, &text_pos_scoreboard);
+				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+				SDL_RenderCopy(ecran, texte_scoreboard3eme, NULL, &text_pos_scoreboard);
+				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+				SDL_RenderCopy(ecran, texte_scoreboard4eme, NULL, &text_pos_scoreboard);
+				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+				SDL_RenderCopy(ecran, texte_scoreboard5eme, NULL, &text_pos_scoreboard);
+				text_pos_scoreboard.y = text_pos_scoreboard.y - 200;
+				SDL_RenderPresent(ecran);
+
 				firstlecturescore = false;
 			}
-
-			SDL_RenderClear(ecran);
-			SDL_RenderCopy(ecran, fond, NULL, NULL);
-			SDL_RenderCopy(ecran, texte_scoreboard1er, NULL, &text_pos_scoreboard);
-			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-			SDL_RenderCopy(ecran, texte_scoreboard2eme, NULL, &text_pos_scoreboard);
-			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-			SDL_RenderCopy(ecran, texte_scoreboard3eme, NULL, &text_pos_scoreboard);
-			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-			SDL_RenderCopy(ecran, texte_scoreboard4eme, NULL, &text_pos_scoreboard);
-			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-			SDL_RenderCopy(ecran, texte_scoreboard5eme, NULL, &text_pos_scoreboard);
-			text_pos_scoreboard.y = text_pos_scoreboard.y - 200;
-
-			SDL_RenderPresent(ecran);
 
 			while( SDL_PollEvent( &evenements ) )
 			switch(evenements.type){
