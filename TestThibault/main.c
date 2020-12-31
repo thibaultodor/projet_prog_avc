@@ -57,7 +57,7 @@ int main()	{
 	SDL_Renderer *ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
-	SDL_Texture* fond = charger_image("green.bmp",ecran);
+	SDL_Texture* fond = charger_image("fond_frite.bmp",ecran);
 
     //Image sol
 	SDL_Texture* sol = charger_image("fond.bmp",ecran);
@@ -166,7 +166,7 @@ int main()	{
 	int position_menu_touche = 1;
 	int tick = 0;
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrï¿½e pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
