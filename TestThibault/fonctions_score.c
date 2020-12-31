@@ -26,7 +26,7 @@ int lireHighScore(FILE* fichier){
 void resetScore(FILE* fichier){
     fichier=fopen("score.txt","w");
     if(fichier!=NULL){
-        fputs("",fichier);
+        for(int i=0;i<5;i++){ecrireScore(0,fichier);}
     }
 }
 

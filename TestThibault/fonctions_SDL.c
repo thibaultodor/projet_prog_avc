@@ -53,13 +53,16 @@ SDL_Texture* charger_scoreboard(int * tab,int position,SDL_Renderer* renderer,TT
 		sprintf(rang, "%d", pos_temp);
 		message[0] = rang[0];
 	}
-	char score_str[5];
-  	if (tab[position] < 10){sprintf(score_str, "0%d", tab[position]);}
-  	else{sprintf(score_str, "%d", tab[position]);}
-  	for (long unsigned int i = 0; i < strlen(score_str); i++){
-        if(position == 0){message[7+i] = score_str[i];}
-        else{message[8+i] = score_str[i];}
-    }
+	if(tab[position] == 0){strcpy(message," ");}
+	else{
+		char score_str[5];
+  		if (tab[position] < 10){sprintf(score_str, "0%d", tab[position]);}
+  		else{sprintf(score_str, "%d", tab[position]);}
+  		for (long unsigned int i = 0; i < strlen(score_str); i++){
+        	if(position == 0){message[7+i] = score_str[i];}
+        	else{message[8+i] = score_str[i];}
+    	}
+	}
   	SDL_Surface * txt = TTF_RenderText_Solid(font,message,color);
   	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, txt);
 	return texture;
