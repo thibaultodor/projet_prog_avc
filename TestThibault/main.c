@@ -5,8 +5,8 @@
 #include "audio.h"
 
 int main()	{
-	SDL_Window* fenetre; // D?claration de la fen?tre
-	SDL_Event evenements; // ?v?nements li?s ? la fen?tre
+	SDL_Window* fenetre; // Declaration de la fenetre
+	SDL_Event evenements; // evenements lies e la fenetre
 	bool terminer = false;
 	//Structure gestion joueur
 	typedef struct joueur_s joueur_t;
@@ -36,7 +36,7 @@ int main()	{
 	return EXIT_FAILURE;
 	}
 
-	// Cr?er la fen?tre
+	// Creer la fenetre
 	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, 600, 600, SDL_WINDOW_RESIZABLE);
 	if(fenetre == NULL) // En cas d'erreur
@@ -66,7 +66,7 @@ int main()	{
 	SDL_Rect SrcR,DestR;
 	//positionImageSol(&SrcR,&DestR,surface_obj->w,surface_obj->h);
 
-	//Image sprite carr? (joueur)
+	//Image sprite carre (joueur)
 	SDL_Texture* sdcarre = charger_image("cuisto_droite.bmp",ecran);
 	SDL_Texture* sgcarre = charger_image("cuisto_gauche.bmp",ecran);
 	SDL_Rect DestRc;
@@ -77,7 +77,7 @@ int main()	{
 	//Sauvegarde des positions du sprite joueur patate venant de droite
 	int posx_patate_attack_droite = 275;
 
-	//Permet de g?rer la hitbox en y du sprite du joueur
+	//Permet de gerer la hitbox en y du sprite du joueur
 	int posy_patate_attack_bas = DestRc.y + DestRc.h;
 	int posy_patate_attack_haut = DestRc.y;
 
@@ -86,7 +86,7 @@ int main()	{
 	//Image sprite patate
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
 	SDL_Texture* spatate_ko = charger_image_transparente("sprite_patate_degat.bmp",ecran,r,g,b);
-	//D?claration patate plus positionnement
+	//Declaration patate plus positionnement
 	SDL_Texture *simagepatate[4];
 	simagepatate[0] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
 	simagepatate[1] = charger_image_transparente("PATATE/patate1.bmp",ecran,r,g,b);
@@ -126,17 +126,17 @@ int main()	{
 
 	//Gestion affichage texte_score_max pour score
 	TTF_Init(); 
-	TTF_Font *font = TTF_OpenFont("./arial.ttf",25);
-	TTF_Font *fontmenu = TTF_OpenFont("./arial.ttf",80);
-	TTF_Font *fontstart = TTF_OpenFont("./arial.ttf",60);
-	TTF_Font *fontoption = TTF_OpenFont("./arial.ttf",60);
-	TTF_Font *fontscore = TTF_OpenFont("./arial.ttf",60);
+	TTF_Font *font = TTF_OpenFont("font/arial.ttf",25);
+	TTF_Font *fontmenu = TTF_OpenFont("font/arial.ttf",80);
+	TTF_Font *fontstart = TTF_OpenFont("font/secretsauce.ttf",60);
+	TTF_Font *fontoption = TTF_OpenFont("font/secretsauce.ttf",60);
+	TTF_Font *fontscore = TTF_OpenFont("font/secretsauce.ttf",60);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
 
 
-	////////////////////////////Score dans interface du jeu (en haut ï¿½ gauche)///////////////////////////
+	////////////////////////////Score dans interface du jeu (en haut a gauche)///////////////////////////
 	int meilleur_score_fichier = lireHighScore(pFile);
 
 	char msg_score_max[] = "Score max : xx";	//Gestion score max
@@ -145,8 +145,8 @@ int main()	{
 	SDL_Rect text_posm; // Position du texte_score_max
 	text_posm.x = 5;
 	text_posm.y = 10;
-	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (? r?cup?rer)
-	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
+	text_posm.w = msg_score_max_surface->w;// Largeur du texte_score_max en pixels (e recuperer)
+	text_posm.h = msg_score_max_surface->h;// Hauteur du texte_score_max en pixels (e recuperer)
 	SDL_FreeSurface(msg_score_max_surface);
 
 	char msg_score[] = "Score : xx";	//Gestion score actuel
@@ -155,8 +155,8 @@ int main()	{
 	SDL_Rect text_pos; // Position du texte_score_max
 	text_pos.x = 5;
 	text_pos.y = 40;
-	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (? r?cup?rer)
-	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
+	text_pos.w = msg_score_surface->w;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos.h = msg_score_surface->h;// Hauteur du texte_score_max en pixels (e recuperer)
 	SDL_FreeSurface(msg_score_surface);
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -166,14 +166,14 @@ int main()	{
 	int position_menu_touche = 1;
 	int tick = 0;
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrÃ©e pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
 	text_pos_menu.y = 250;
-	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
-	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_surface);
 	//Start
 	char msg_start[] = "START";	//Gestion menu
@@ -182,8 +182,8 @@ int main()	{
 	SDL_Rect text_pos_start; // Position du msg
 	text_pos_start.x = 100;
 	text_pos_start.y = 350;
-	text_pos_start.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
-	text_pos_start.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_start.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_start.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_start);
 	//Options
 	char msg_option[] = "OPTIONS";	//Gestion menu
@@ -192,8 +192,8 @@ int main()	{
 	SDL_Rect text_pos_option; // Position du msg
 	text_pos_option.x = 100;
 	text_pos_option.y = 400;
-	text_pos_option.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
-	text_pos_option.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_option.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_option.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_option);
 	//Score
 	char msg_score_menu[] = "SCORES";	//Gestion menu
@@ -202,20 +202,20 @@ int main()	{
 	SDL_Rect text_pos_scores; // Position du msg
 	text_pos_scores.x = 100;
 	text_pos_scores.y = 450;
-	text_pos_scores.w = 200;// Largeur du texte_score_max en pixels (ï¿½ r?cup?rer)
-	text_pos_scores.h = 50;// Hauteur du texte_score_max en pixels (ï¿½ r?cup?rer)
+	text_pos_scores.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_scores.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_score);
 	///////////////////////////////////////////
 
-	/////////////////Message choix difficultï¿½////////////////////
+	/////////////////Message choix difficulta////////////////////
 	char msg_diff[] = "Quel niveau de difficulte ? (f , m ou d)";	//Gestion menu
 	SDL_Texture* texte_diff = charger_texte(msg_diff,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_diff = TTF_RenderText_Solid(fontmenu,msg_diff,color);
 	SDL_Rect text_pos_diff; // Position du texte_score_max
 	text_pos_diff.x = 100;
 	text_pos_diff.y = 300;
-	text_pos_diff.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
-	text_pos_diff.h = 50;// Hauteur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_diff.w = 400;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_diff.h = 50;// Hauteur du texte_score_max en pixels (e recuperer)
 	SDL_FreeSurface(msg_menu_diff);
 	////////////////////////////////////////////////////////////
 
@@ -226,8 +226,8 @@ int main()	{
 	SDL_Rect text_pos_menu_sons; // Position du texte_score_max
 	text_pos_menu_sons.x = 5;
 	text_pos_menu_sons.y = 40;
-	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (? r?cup?rer)
-	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (? r?cup?rer)
+	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (e recuperer)
 	SDL_FreeSurface(msg_menu_sons_surface);
 	////////////////////////////////////////////////////////////
 
@@ -255,7 +255,6 @@ int main()	{
 	bool scoreboard = false;
 	bool choixdiff = false;
 	bool firstlaunch = true;
-	bool firstlecturescore = false;
 
 
 	// Boucle principale
@@ -281,6 +280,18 @@ int main()	{
       				spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
 				}
       			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);patate[i]->DestR.y = 600-200;spatate[i] = spritepatate;};
+
+      			//////////////////////LECTURE DES SCORES////////////////////////////
+      			int tab[nbLigne(pFile)];
+				tabScore(pFile,tab);
+
+				texte_scoreboard1er = charger_scoreboard(tab,0,ecran,font,color);
+				texte_scoreboard2eme = charger_scoreboard(tab,1,ecran,font,color);
+				texte_scoreboard3eme = charger_scoreboard(tab,2,ecran,font,color);
+				texte_scoreboard4eme = charger_scoreboard(tab,3,ecran,font,color);
+				texte_scoreboard5eme = charger_scoreboard(tab,4,ecran,font,color);
+				////////////////////////////////////////////////////////////////////
+
       			firstlaunch = false;
 			}
 
@@ -333,7 +344,6 @@ int main()	{
 				else if(position_menu_touche==3){
 					menu = false;
 					scoreboard = true;
-					firstlecturescore=true;
 				}
 				break;
 
@@ -420,35 +430,19 @@ int main()	{
 		}
 		//////////////////////////// GESTION SCOREBOARD ///////////////////////////////////////
 		else if(scoreboard){
-
-			if(firstlecturescore){
-				int tab[nbLigne(pFile)];
-
-				tabScore(pFile,tab);  /////////////////////////////POSE UN GROS PROBLEME DE MEMOIRE ?! ////////////////////////////
-
-				texte_scoreboard1er = charger_scoreboard(tab,0,ecran,font,color);
-				texte_scoreboard2eme = charger_scoreboard(tab,1,ecran,font,color);
-				texte_scoreboard3eme = charger_scoreboard(tab,2,ecran,font,color);
-				texte_scoreboard4eme = charger_scoreboard(tab,3,ecran,font,color);
-				texte_scoreboard5eme = charger_scoreboard(tab,4,ecran,font,color);
-
-				SDL_RenderClear(ecran);
-				SDL_RenderCopy(ecran, fond, NULL, NULL);
-				SDL_RenderCopy(ecran, texte_scoreboard1er, NULL, &text_pos_scoreboard);
-				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-				SDL_RenderCopy(ecran, texte_scoreboard2eme, NULL, &text_pos_scoreboard);
-				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-				SDL_RenderCopy(ecran, texte_scoreboard3eme, NULL, &text_pos_scoreboard);
-				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-				SDL_RenderCopy(ecran, texte_scoreboard4eme, NULL, &text_pos_scoreboard);
-				text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
-				SDL_RenderCopy(ecran, texte_scoreboard5eme, NULL, &text_pos_scoreboard);
-				text_pos_scoreboard.y = text_pos_scoreboard.y - 200;
-				SDL_RenderPresent(ecran);
-
-				firstlecturescore = false;
-			}
-
+			SDL_RenderClear(ecran);
+			SDL_RenderCopy(ecran, fond, NULL, NULL);
+			SDL_RenderCopy(ecran, texte_scoreboard1er, NULL, &text_pos_scoreboard);
+			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+			SDL_RenderCopy(ecran, texte_scoreboard2eme, NULL, &text_pos_scoreboard);
+			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+			SDL_RenderCopy(ecran, texte_scoreboard3eme, NULL, &text_pos_scoreboard);
+			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+			SDL_RenderCopy(ecran, texte_scoreboard4eme, NULL, &text_pos_scoreboard);
+			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
+			SDL_RenderCopy(ecran, texte_scoreboard5eme, NULL, &text_pos_scoreboard);
+			text_pos_scoreboard.y = text_pos_scoreboard.y - 200;
+			SDL_RenderPresent(ecran);
 			while( SDL_PollEvent( &evenements ) )
 			switch(evenements.type){
 			case SDL_QUIT:terminer = true; break;
@@ -487,17 +481,17 @@ int main()	{
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
 				case SDLK_LEFT: spritecarree = sgcarre;joueur->gauche=1;joueur->droit=0;break;
 				case SDLK_RIGHT: spritecarree = sdcarre;joueur->gauche=0;joueur->droit=1;break;
-				//Initialisation apr?s appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
+				//Initialisation apres appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
 				case SDLK_d:resetScore(pFile);texte_score_max = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
-				//Initialisation apr?s appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
+				//Initialisation apres appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
 				case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);break;
 				}
 			}
 			SDL_Delay(10);
 			for(int i=0;i<nbPatate;i++){
 				deplacementPatate(patate[i]);
-				if(patate[i]->DestR.x<-50 && patate[i]->droit == true){spatate[i] = spritepatate;retourPatate(patate[i]);} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
-				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){spatate[i] = spritepatate;retourPatate(patate[i]);} //Retour de la patate venant de droite apr?s avoir quitt? l'?cran
+				if(patate[i]->DestR.x<-50 && patate[i]->droit == true){spatate[i] = spritepatate;retourPatate(patate[i]);} //Retour de la patate venant de droite apres avoir quitte l'ecran
+				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){spatate[i] = spritepatate;retourPatate(patate[i]);} //Retour de la patate venant de droite apres avoir quitte l'ecran
 
 
 				if (patate[i]->DestR.x >= 600-3 && patate[i]->DestR.x <= 600+3 && patate[i]->droit == true){//Gestion score plus mort ou vie de la patate
@@ -535,7 +529,7 @@ int main()	{
 
 
 			if (best_score == 0){
-				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est sup?rieur au score max
+				if (meilleur_score_fichier == score){best_score = 1;tick_color_red = 0;}}//Verifie si le score actuel est superieur au score max
 			else{
 				if (meilleur_score_fichier == 0){tick_color_red = -1;}
 				if (tick_color_red >= 0){tick_color_red++;}
@@ -555,16 +549,14 @@ int main()	{
 	// Quitter et nettoyer SDL
 	SDL_DestroyTexture(fond);SDL_DestroyTexture(sol);
 	SDL_DestroyTexture(spritecarree);SDL_DestroyTexture(sdcarre);SDL_DestroyTexture(sgcarre);
-	for(int i=0;i<nbPatate;i++){SDL_DestroyTexture(spatate[i]);}
+	for(int i=0;i<nbPatate;i++){SDL_DestroyTexture(spatate[i]);free(patate[i]);}
 	SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);
 	SDL_DestroyTexture(svie);
 	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);
 	SDL_DestroyTexture(ssound1);SDL_DestroyTexture(ssound2);SDL_DestroyTexture(ssound3);SDL_DestroyTexture(snosound);
-	//SDL_DestroyTexture(sprites);
 	SDL_DestroyRenderer(ecran);
 	SDL_DestroyWindow(fenetre);
-	TTF_CloseFont(font);
-	TTF_CloseFont(fontmenu);
+	TTF_CloseFont(font);TTF_CloseFont(fontmenu);TTF_CloseFont(fontoption);TTF_CloseFont(fontscore);TTF_CloseFont(fontstart);
 	TTF_Quit();
 	SDL_Quit();
 	return 0;

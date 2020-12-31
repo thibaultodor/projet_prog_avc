@@ -26,10 +26,10 @@ void positionImageVie(SDL_Rect* DestRv){
 }
 
 void positionImageSons(SDL_Rect* DestRs){
-	DestRs->x = 540;
-	DestRs->y = 540;
-	DestRs->w = 50;
-	DestRs->h = 50;
+	DestRs->x = 200;
+	DestRs->y = 200;
+	DestRs->w = 200;
+	DestRs->h = 200;
 }
 
 void deplacementPatate(patate_t *P){
