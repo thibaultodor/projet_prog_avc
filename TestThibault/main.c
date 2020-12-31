@@ -85,7 +85,7 @@ int main()	{
 
 	//Image sprite patate
 	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
-	SDL_Texture* spatate_ko = charger_image_transparente("sprite_patate_degat.bmp",ecran,r,g,b);
+	SDL_Texture* spatate_ko = charger_image_transparente("PATATE/patateko.bmp",ecran,r,g,b);
 	//Declaration patate plus positionnement
 	SDL_Texture *simagepatate[4];
 	simagepatate[0] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
@@ -279,7 +279,7 @@ int main()	{
       				creerPatate(patate[i-1],sens,i);
       				spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
 				}
-      			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);patate[i]->DestR.y = 600-200;spatate[i] = spritepatate;};
+      			for(int i=0;i<nbPatate;i++){retourPatateMenu(patate[i]);spatate[i] = spritepatate;};
 
       			//////////////////////LECTURE DES SCORES////////////////////////////
       			int tab[nbLigne(pFile)];
@@ -399,7 +399,7 @@ int main()	{
       				creerPatate(patate[i-1],sens,i);
       				spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
 				}
-      			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);patate[i]->DestR.y = 600-200;spatate[i] = spritepatate;};
+      			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);spatate[i] = spritepatate;};
       			difficulte = false;
       			choixdiff = false;
 			}
@@ -504,7 +504,7 @@ int main()	{
 				if (patate[i]->DestR.x >= posx_patate_attack_gauche-5 && patate[i]->DestR.x <= posx_patate_attack_gauche && patate[i]->droit == true){//Gestion score plus mort ou vie de la patate
 					if(patate[i]->patate_interval == false){
 						if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
-							if (joueur->droit==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);}
+							if (joueur->droit==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);patate[i]->vie=false;}
 							if (joueur->gauche==1){spatate[i] = spatate_alive;joueur->vie--;}
 						}
 						patate[i]->patate_interval = true;
@@ -513,7 +513,7 @@ int main()	{
 				else if (patate[i]->DestR.x >= posx_patate_attack_droite-patate[i]->DestR.w && patate[i]->DestR.x <= posx_patate_attack_droite-patate[i]->DestR.w+5 && patate[i]->droit == false){//Gestion score plus mort ou vie de la patate
 					if(patate[i]->patate_interval == false){	
 						if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
-							if (joueur->gauche==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);}
+							if (joueur->gauche==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);patate[i]->vie=false;}
 							if (joueur->droit==1){spatate[i] = spatate_alive;joueur->vie--;}
 						}
 						patate[i]->patate_interval = true;

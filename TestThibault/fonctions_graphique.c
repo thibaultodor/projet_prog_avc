@@ -34,18 +34,30 @@ void positionImageSons(SDL_Rect* DestRs){
 
 void deplacementPatate(patate_t *P){
 	if(P->droit == true){P->DestR.x = P->DestR.x - P->vitesse;}
-	else{P->DestR.x = P->DestR.x + P->vitesse;}	
+	else{P->DestR.x = P->DestR.x + P->vitesse;}
 	P->RotationImage++;
+	if(P->vie == false){P->DestR.y = P->DestR.y+10;}
 }
 
-
-void retourPatate(patate_t *P){
+void retourPatateMenu(patate_t *P){
 	if(P->droit == true){P->DestR.x = 600 + rand() % 400;}
 	else{P->DestR.x = -50 - rand() % 400;}
 	P->RotationImage=0;
 	P->patate_interval=false;
 	P->cri_arrive=false;
 	P->cri_mort=false;
+}
+
+
+void retourPatate(patate_t *P){
+	if(P->droit == true){P->DestR.x = 600 + rand() % 400;}
+	else{P->DestR.x = -50 - rand() % 400;}
+	P->DestR.y = 410-rand()%20;
+	P->RotationImage=0;
+	P->patate_interval=false;
+	P->cri_arrive=false;
+	P->cri_mort=false;
+	P->vie=true;
 }
 
 void clignotement_texte (SDL_Texture** t,int* tick,char msg[],TTF_Font *fontmenu,SDL_Renderer* ecran,int* swtch){
