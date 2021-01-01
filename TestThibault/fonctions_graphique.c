@@ -27,7 +27,7 @@ void positionImageVie(SDL_Rect* DestRv){
 
 void positionImageSons(SDL_Rect* DestRs){
 	DestRs->x = 200;
-	DestRs->y = 200;
+	DestRs->y = 150;
 	DestRs->w = 200;
 	DestRs->h = 200;
 }

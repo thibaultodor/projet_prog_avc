@@ -132,6 +132,7 @@ int main()	{
 	TTF_Font *fontstart = TTF_OpenFont("font/secretsauce.ttf",90);
 	TTF_Font *fontoption = TTF_OpenFont("font/secretsauce.ttf",60);
 	TTF_Font *fontscore = TTF_OpenFont("font/secretsauce.ttf",60);
+	TTF_Font *fontoption_sons = TTF_OpenFont("font/PressStart2P.ttf",60);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
@@ -164,7 +165,7 @@ int main()	{
 
 	////////////////////MENU///////////////////
 	int swtch = 0;
-	int swtch_entree = 1;
+	int swtch_entree = 0;
 	int position_menu_touche = 1;
 	int tick = 0;
 	int tick_entree = 0;
@@ -211,27 +212,30 @@ int main()	{
 	///////////////////////////////////////////
 
 	/////////////////Message choix difficulta////////////////////
-	char msg_diff[] = "Quel niveau de difficulte ? (f , m ou d)";	//Gestion menu
+	char msg_diff[] = "Quel niveau de difficulte ? (1, 2 ou 3)";	//Gestion menu
 	SDL_Texture* texte_diff = charger_texte(msg_diff,ecran,fontmenu,color);
-	SDL_Surface * msg_menu_diff = TTF_RenderText_Solid(fontmenu,msg_diff,color);
 	SDL_Rect text_pos_diff; // Position du texte_score_max
-	text_pos_diff.x = 100;
+	text_pos_diff.x = 50;
 	text_pos_diff.y = 300;
-	text_pos_diff.w = 400;// Largeur du texte_score_max en pixels (e recuperer)
-	text_pos_diff.h = 50;// Hauteur du texte_score_max en pixels (e recuperer)
-	SDL_FreeSurface(msg_menu_diff);
+	text_pos_diff.w = 500;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_diff.h = 40;// Hauteur du texte_score_max en pixels (e recuperer)
 	////////////////////////////////////////////////////////////
 
 	///////////////Opton du sons////////////////////////////////
 	char msg_menu_sons[] = "Appuyez sur 'p' pour monter le sons et 'm' pour le diminuer";	//Gestion menu
-	SDL_Texture* texte_menu_sons = charger_texte(msg_menu_sons,ecran,font,color);
-	SDL_Surface * msg_menu_sons_surface = TTF_RenderText_Solid(font,msg_menu_sons,color);
+	SDL_Texture* texte_menu_sons = charger_texte(msg_menu_sons,ecran,fontoption_sons,color);
 	SDL_Rect text_pos_menu_sons; // Position du texte_score_max
-	text_pos_menu_sons.x = 5;
+	text_pos_menu_sons.x = 40;
 	text_pos_menu_sons.y = 40;
-	text_pos_menu_sons.w = 400;// Largeur du texte_score_max en pixels (e recuperer)
-	text_pos_menu_sons.h = msg_menu_sons_surface->h;// Hauteur du texte_score_max en pixels (e recuperer)
-	SDL_FreeSurface(msg_menu_sons_surface);
+	text_pos_menu_sons.w = 500;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_menu_sons.h = 30;// Hauteur du texte_score_max en pixels (e recuperer)
+	char msg_menu_sons_delete[] = "Appuyez sur 'd' pour remmettre à zero vos scores.";	//Gestion menu
+	SDL_Texture* texte_menu_sons_delete = charger_texte(msg_menu_sons_delete,ecran,fontoption_sons,color);
+	SDL_Rect text_pos_menu_sons_delete; // Position du texte_score_max
+	text_pos_menu_sons_delete.x = 30;
+	text_pos_menu_sons_delete.y = 500;
+	text_pos_menu_sons_delete.w = 500;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_menu_sons_delete.h = 30;// Hauteur du texte_score_max en pixels (e recuperer)
 	////////////////////////////////////////////////////////////
 
 	//////////////////////////SCOREBOARD/////////////////////////////////
@@ -266,9 +270,11 @@ int main()	{
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
 
+			///////Gere un clignotement simple du type affiche/affiche plus////////
 			if(tick_entree==100){if(swtch_entree==0){swtch_entree=1;}else{swtch_entree=0;}tick_entree=0;}
 			tick_entree++;
 			if(swtch_entree==0){SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);}
+			///////////////////////////////////////////////////////////////////////
 
 			SDL_RenderCopy(ecran, texte_start, NULL, &text_pos_start);
 			SDL_RenderCopy(ecran, texte_option, NULL, &text_pos_option);
@@ -388,9 +394,9 @@ int main()	{
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
-				case SDLK_f: choixdiff = true;nbPatate = 2;break;
-				case SDLK_m: choixdiff = true;nbPatate = 3;break;
-				case SDLK_d: choixdiff = true;nbPatate = 4;break;
+				case SDLK_1:case SDLK_KP_1: choixdiff = true;nbPatate = 2;break;
+				case SDLK_2:case SDLK_KP_2: choixdiff = true;nbPatate = 3;break;
+				case SDLK_3:case SDLK_KP_3: choixdiff = true;nbPatate = 4;break;
 				case SDLK_BACKSPACE:menu = true;difficulte=false;break;
 				}
 			}
@@ -410,6 +416,7 @@ int main()	{
       			choixdiff = false;
 			}
 		}
+		///////////////////////////////////////////////////////////////////////////////////////////
 		else if(option_sons){
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
@@ -419,6 +426,8 @@ int main()	{
 			else if(audio > 0 && audio <= 5){SDL_RenderCopy(ecran, ssound1, NULL, &DestRs);}
 			else if(audio > 5 && audio <= 10){SDL_RenderCopy(ecran, ssound2, NULL, &DestRs);}
 			else{SDL_RenderCopy(ecran, ssound3, NULL, &DestRs);}
+
+			SDL_RenderCopy(ecran, texte_menu_sons_delete, NULL, &text_pos_menu_sons_delete);
 
 			SDL_RenderPresent(ecran);
 
@@ -431,6 +440,7 @@ int main()	{
 				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
 				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
 				case SDLK_BACKSPACE:menu = true;option_sons=false;break;
+				case SDLK_d:resetScore(pFile);meilleur_score_fichier = 0;menu = true;option_sons=false;firstlaunch=true;break;
 				}
 			}
 		}
@@ -489,9 +499,9 @@ int main()	{
 				case SDLK_LEFT: spritecarree = sgcarre;joueur->gauche=1;joueur->droit=0;break;
 				case SDLK_RIGHT: spritecarree = sdcarre;joueur->gauche=0;joueur->droit=1;break;
 				//Initialisation apres appui sur bouton delete 'd' (supprime tout les score et reset) A TRANSFORMER EN FONCTION
-				case SDLK_d:resetScore(pFile);texte_score_max = charger_texte_score(0,ecran,font,color);best_score = 1;score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);meilleur_score_fichier = 0;tick_color_red = -1;break;
+				//ICI ancien case d
 				//Initialisation apres appui sur bouton reset 'r' (reset du score actuel) A TRANSFORMER EN FONCTION
-				case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);break;
+				case SDLK_r:ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);best_score=0;meilleur_score_fichier = lireHighScore(pFile);for(int i=0;i<nbPatate;i++){spatate[i] = spritepatate;retourPatate(patate[i]);joueur->vie=3;}break;
 				}
 			}
 			SDL_Delay(10);
@@ -531,7 +541,6 @@ int main()	{
 			if (joueur->vie <= 0){
 				ecrireScore(score,pFile);score=0;texte_score = charger_texte_score_actu(score,ecran,font,color);
 				best_score=0;meilleur_score_fichier = lireHighScore(pFile);joueur->vie=3;menu = true;firstlaunch=true;
-				for(int i=0;i<nbPatate;i++){spatate[i] = spritepatate;retourPatate(patate[i]);patate[i]->DestR.y = rand() % 500;}
 			}
 
 
