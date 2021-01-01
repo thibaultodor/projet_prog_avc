@@ -84,7 +84,7 @@ int main()	{
 	Uint8 r = 0, g = 255, b = 255;
 
 	//Image sprite patate
-	SDL_Texture* spatate_alive = charger_image("sprite_patate_nodegat.bmp",ecran);
+	SDL_Texture* spatate_alive = charger_image_transparente("PATATE/sprite_patate_nodegat.bmp",ecran,r,g,b);
 	SDL_Texture* spatate_ko = charger_image_transparente("PATATE/patateko.bmp",ecran,r,g,b);
 	//Declaration patate plus positionnement
 	SDL_Texture *simagepatate[4];
@@ -93,6 +93,7 @@ int main()	{
 	simagepatate[2] = charger_image_transparente("PATATE/patate2.bmp",ecran,r,g,b);
 	simagepatate[3] = charger_image_transparente("PATATE/patate3.bmp",ecran,r,g,b);
 
+	SDL_Texture* spatate_fond = charger_image_transparente("PATATE/patate_fond.bmp",ecran,r,g,b);
 
 	////////////////
 
@@ -127,8 +128,8 @@ int main()	{
 	//Gestion affichage texte_score_max pour score
 	TTF_Init(); 
 	TTF_Font *font = TTF_OpenFont("font/arial.ttf",25);
-	TTF_Font *fontmenu = TTF_OpenFont("font/arial.ttf",80);
-	TTF_Font *fontstart = TTF_OpenFont("font/secretsauce.ttf",60);
+	TTF_Font *fontmenu = TTF_OpenFont("font/PressStart2P.ttf",80);
+	TTF_Font *fontstart = TTF_OpenFont("font/secretsauce.ttf",90);
 	TTF_Font *fontoption = TTF_OpenFont("font/secretsauce.ttf",60);
 	TTF_Font *fontscore = TTF_OpenFont("font/secretsauce.ttf",60);
 	SDL_Color color = {0,0,0,0};
@@ -163,35 +164,37 @@ int main()	{
 
 	////////////////////MENU///////////////////
 	int swtch = 0;
+	int swtch_entree = 1;
 	int position_menu_touche = 1;
 	int tick = 0;
+	int tick_entree = 0;
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrï¿½e pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Surface * msg_menu_surface = TTF_RenderText_Solid(fontmenu,msg_menu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
-	text_pos_menu.y = 250;
+	text_pos_menu.y = 500;
 	text_pos_menu.w = 400;// Largeur du texte_score_max en pixels (a recuperer)
-	text_pos_menu.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
+	text_pos_menu.h = 30;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_surface);
 	//Start
 	char msg_start[] = "START";	//Gestion menu
 	SDL_Texture* texte_start = charger_texte(msg_start,ecran,fontstart,color);
 	SDL_Surface * msg_menu_start = TTF_RenderText_Solid(fontstart,msg_start,color);
 	SDL_Rect text_pos_start; // Position du msg
-	text_pos_start.x = 100;
-	text_pos_start.y = 350;
-	text_pos_start.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
-	text_pos_start.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
+	text_pos_start.x = 150;
+	text_pos_start.y = 200;
+	text_pos_start.w = 300;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_start.h = 100;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_start);
 	//Options
 	char msg_option[] = "OPTIONS";	//Gestion menu
 	SDL_Texture* texte_option = charger_texte(msg_option,ecran,fontoption,color);
 	SDL_Surface * msg_menu_option = TTF_RenderText_Solid(fontoption,msg_option,color);
 	SDL_Rect text_pos_option; // Position du msg
-	text_pos_option.x = 100;
-	text_pos_option.y = 400;
+	text_pos_option.x = 200;
+	text_pos_option.y = 300;
 	text_pos_option.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_option.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_option);
@@ -200,8 +203,8 @@ int main()	{
 	SDL_Texture* texte_menu_score = charger_texte(msg_score_menu,ecran,fontscore,color);
 	SDL_Surface * msg_menu_score = TTF_RenderText_Solid(fontscore,msg_score_menu,color);
 	SDL_Rect text_pos_scores; // Position du msg
-	text_pos_scores.x = 100;
-	text_pos_scores.y = 450;
+	text_pos_scores.x = 200;
+	text_pos_scores.y = 350;
 	text_pos_scores.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_scores.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	SDL_FreeSurface(msg_menu_score);
@@ -240,9 +243,9 @@ int main()	{
 	SDL_Texture* texte_scoreboard5eme;
 
 	SDL_Rect text_pos_scoreboard; // Position du texte_score_max
-	text_pos_scoreboard.x = 10;
-	text_pos_scoreboard.y = 40;
-	text_pos_scoreboard.w = 200;
+	text_pos_scoreboard.x = 160;
+	text_pos_scoreboard.y = 190;
+	text_pos_scoreboard.w = 300;
 	text_pos_scoreboard.h = 50;
 	/////////////////////////////////////////////////////////////////////
 
@@ -262,7 +265,11 @@ int main()	{
 		if(menu){
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
-			SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);
+
+			if(tick_entree==100){if(swtch_entree==0){swtch_entree=1;}else{swtch_entree=0;}tick_entree=0;}
+			tick_entree++;
+			if(swtch_entree==0){SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);}
+
 			SDL_RenderCopy(ecran, texte_start, NULL, &text_pos_start);
 			SDL_RenderCopy(ecran, texte_option, NULL, &text_pos_option);
 			SDL_RenderCopy(ecran, texte_menu_score, NULL, &text_pos_scores);
@@ -285,11 +292,11 @@ int main()	{
       			int tab[nbLigne(pFile)];
 				tabScore(pFile,tab);
 
-				texte_scoreboard1er = charger_scoreboard(tab,0,ecran,font,color);
-				texte_scoreboard2eme = charger_scoreboard(tab,1,ecran,font,color);
-				texte_scoreboard3eme = charger_scoreboard(tab,2,ecran,font,color);
-				texte_scoreboard4eme = charger_scoreboard(tab,3,ecran,font,color);
-				texte_scoreboard5eme = charger_scoreboard(tab,4,ecran,font,color);
+				texte_scoreboard1er = charger_scoreboard(tab,0,ecran,fontmenu,color);
+				texte_scoreboard2eme = charger_scoreboard(tab,1,ecran,fontmenu,color);
+				texte_scoreboard3eme = charger_scoreboard(tab,2,ecran,fontmenu,color);
+				texte_scoreboard4eme = charger_scoreboard(tab,3,ecran,fontmenu,color);
+				texte_scoreboard5eme = charger_scoreboard(tab,4,ecran,fontmenu,color);
 				////////////////////////////////////////////////////////////////////
 
       			firstlaunch = false;
@@ -320,7 +327,6 @@ int main()	{
 				else if(patate[i]->DestR.x>650 && patate[i]->droit == false){patate[i]->DestR.x = -50;patate[i]->DestR.y = rand() % 500;patate[i]->RotationImage=0;}
 			}
 
-			
 			SDL_RenderPresent(ecran);
 			while( SDL_PollEvent( &evenements ) )
 			switch(evenements.type){
@@ -432,6 +438,7 @@ int main()	{
 		else if(scoreboard){
 			SDL_RenderClear(ecran);
 			SDL_RenderCopy(ecran, fond, NULL, NULL);
+			SDL_RenderCopy(ecran,spatate_fond,NULL,NULL);
 			SDL_RenderCopy(ecran, texte_scoreboard1er, NULL, &text_pos_scoreboard);
 			text_pos_scoreboard.y = text_pos_scoreboard.y + 50;
 			SDL_RenderCopy(ecran, texte_scoreboard2eme, NULL, &text_pos_scoreboard);
