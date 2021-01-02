@@ -21,7 +21,6 @@ int main()	{
 	joueur->droit=1;
 	joueur->gauche=0;
 
-	
 	// Initialisation audio
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
@@ -38,7 +37,7 @@ int main()	{
 
 	// Creer la fenetre
 	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
-	SDL_WINDOWPOS_CENTERED, 600, 600, SDL_WINDOW_RESIZABLE);
+	SDL_WINDOWPOS_CENTERED, 600, 600,0);
 	if(fenetre == NULL) // En cas d'erreur
 	{
 	printf("Erreur de la creation d'une fenetre: %s",SDL_GetError());
