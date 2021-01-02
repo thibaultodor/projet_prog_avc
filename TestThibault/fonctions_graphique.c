@@ -12,9 +12,9 @@ void positionImageSol(SDL_Rect *SrcR, SDL_Rect *DestR,int W, int H){
 }
 
 void positionImageCarre(SDL_Rect* DestRc){
-	DestRc->x = 275;
+	DestRc->x = 272;
 	DestRc->y = 600-250;
-	DestRc->w = 50;
+	DestRc->w = 65;
 	DestRc->h = 175;
 }
 

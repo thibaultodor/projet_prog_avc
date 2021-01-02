@@ -85,21 +85,21 @@ int main()	{
 	SDL_Texture* sprite_cuistot_gauche_haut = charger_image_transparente("spritecuistot/Cuistot_gauche_haut.bmp",ecran,r,g,b);
 	Position_cuistot_d_h.x=250;Position_cuistot_g_h.x=260;
 	Position_cuistot_d_h.y=350;Position_cuistot_g_h.y=350;
-	Position_cuistot_d_h.w=90;Position_cuistot_g_h.w=90;
+	Position_cuistot_d_h.w=99;Position_cuistot_g_h.w=99;
 	Position_cuistot_d_h.h=180;Position_cuistot_g_h.h=180;
 
 	SDL_Texture* sprite_cuistot_droit_bas = charger_image_transparente("spritecuistot/Cuistot_droit_bas.bmp",ecran,r,g,b);
 	SDL_Texture* sprite_cuistot_gauche_bas = charger_image_transparente("spritecuistot/Cuistot_gauche_bas.bmp",ecran,r,g,b);
-	Position_cuistot_d_b.x=250;Position_cuistot_g_b.x=256;
+	Position_cuistot_d_b.x=250;Position_cuistot_g_b.x=255;
 	Position_cuistot_d_b.y=350;Position_cuistot_g_b.y=350;
-	Position_cuistot_d_b.w=94;Position_cuistot_g_b.w=94;
+	Position_cuistot_d_b.w=104;Position_cuistot_g_b.w=104;
 	Position_cuistot_d_b.h=180;Position_cuistot_g_b.h=180;
 	///////////////////////////////////////////////////////////////////////////
 
 	//Sauvegarde des positions du sprite joueur patate venant de gauche
 	int posx_patate_attack_gauche = DestRc.x + DestRc.w;
 	//Sauvegarde des positions du sprite joueur patate venant de droite
-	int posx_patate_attack_droite = 275;
+	int posx_patate_attack_droite = DestRc.x;
 
 	//Permet de gerer la hitbox en y du sprite du joueur
 	int posy_patate_attack_bas = DestRc.y + DestRc.h;
