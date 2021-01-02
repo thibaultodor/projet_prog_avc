@@ -15,12 +15,12 @@ void positionImageCarre(SDL_Rect* DestRc){
 	DestRc->x = 275;
 	DestRc->y = 600-250;
 	DestRc->w = 50;
-	DestRc->h = 200;
+	DestRc->h = 175;
 }
 
 void positionImageVie(SDL_Rect* DestRv){
 	DestRv->x = 400;
-	DestRv->y = 10;
+	DestRv->y = 20;
 	DestRv->w = 30;
 	DestRv->h = 30;
 }
@@ -30,6 +30,27 @@ void positionImageSons(SDL_Rect* DestRs){
 	DestRs->y = 150;
 	DestRs->w = 200;
 	DestRs->h = 200;
+}
+
+void positionImageBack(SDL_Rect* DestRb){
+	DestRb->x = 20;
+	DestRb->y = 530;
+	DestRb->w = 100;
+	DestRb->h = 50;
+}
+
+void positionscoreboard(SDL_Rect* DestRscore){
+	DestRscore->x = 160;
+	DestRscore->y = 190;
+	DestRscore->w = 300;
+	DestRscore->h = 50;
+}
+
+void positionSpriteCuistotMenu(SDL_Rect* DestRSprCuistot){
+	DestRSprCuistot->x = 20;
+	DestRSprCuistot->y = 410;
+	DestRSprCuistot->w = 80;
+	DestRSprCuistot->h = 200;
 }
 
 void deplacementPatate(patate_t *P){
