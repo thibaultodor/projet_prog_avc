@@ -53,6 +53,9 @@ int main()	{
 	//Ouverture fichier score
 	FILE * pFile;
 	pFile=fopen ("score.txt","r");
+	if(pFile==NULL){
+		resetScore(pFile);
+	}
 
 	//Initialisation renderer
 	SDL_Renderer *ecran = SDL_CreateRenderer(fenetre, -1, 0);
