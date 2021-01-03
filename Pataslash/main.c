@@ -70,6 +70,9 @@ int main()	{
 	//Image fond
 	SDL_Texture* fond_diff = charger_image("Ressources/Background/fond_frite_diff.bmp",ecran);
 
+	//Image fond option
+	SDL_Texture* fond_frite_option = charger_image("Ressources/Background/fond_frite_opton.bmp",ecran);
+
     //Image fond in game
 	SDL_Texture* fond_ingame = charger_image("Ressources/Background/fond_cuisine_blanc.bmp",ecran);
 
@@ -214,7 +217,7 @@ int main()	{
 	text_pos_titre.w = 500;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_titre.h = 150;// Hauteur du texte_score_max en pixels (a recuperer)
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrï¿½e pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
@@ -265,7 +268,7 @@ int main()	{
 	text_pos_menu_sons.y = 40;
 	text_pos_menu_sons.w = 550;// Largeur du texte_score_max en pixels (e recuperer)
 	text_pos_menu_sons.h = 30;// Hauteur du texte_score_max en pixels (e recuperer)
-	char msg_menu_sons_delete[] = "Appuyez sur 'd' pour remmettre à zero vos scores.";	//Gestion menu
+	char msg_menu_sons_delete[] = "Appuyez sur 'd' pour remmettre ï¿½ zero vos scores.";	//Gestion menu
 	SDL_Texture* texte_menu_sons_delete = charger_texte(msg_menu_sons_delete,ecran,fontoption_sons,color);
 	SDL_Rect text_pos_menu_sons_delete; // Position du texte_score_max
 	text_pos_menu_sons_delete.x = 40;
@@ -289,7 +292,7 @@ int main()	{
 	char msg_tuto_p2_1[] = "But du jeu : Faire le plus haut score";	//Tuto part1_1
 	char msg_tuto_p2_2[] = "(votre score augmente en tuant une patate)";	//Tuto part1_2
 	char msg_tuto_p2_3[] = "Appuyez sur R afin de recommencer";	//Tuto part1_3
-	char msg_tuto_p2_4[] = "(Note : Votre score n'est pas enregistrée si vous recommencez)";	//Tuto part1_4
+	char msg_tuto_p2_4[] = "(Note : Votre score n'est pas enregistrï¿½e si vous recommencez)";	//Tuto part1_4
 	SDL_Texture* text_msg_tuto_p2_1 = charger_texte(msg_tuto_p2_1,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_2 = charger_texte(msg_tuto_p2_2,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_3 = charger_texte(msg_tuto_p2_3,ecran,font_tuto,color);
@@ -493,7 +496,7 @@ int main()	{
 		///////////////////////////////////////////////////////////////////////////////////////////
 		else if(option_sons){
 			SDL_RenderClear(ecran);
-			SDL_RenderCopy(ecran, fond, NULL, NULL);
+			SDL_RenderCopy(ecran, fond_frite_option, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_menu_sons, NULL, &text_pos_menu_sons);
 
 			SDL_RenderCopy(ecran, back,NULL,&DestBack);
@@ -680,15 +683,25 @@ int main()	{
 
 	// Quitter et nettoyer SDL
 	SDL_DestroyTexture(fond);
+	SDL_DestroyTexture(fond_ingame);
 	SDL_DestroyTexture(spritecarree);SDL_DestroyTexture(sdcarre);SDL_DestroyTexture(sgcarre);
+	SDL_DestroyTexture(sprite_cuistot_menu);SDL_DestroyTexture(sprite_cuistot_droit_haut);SDL_DestroyTexture(sprite_cuistot_droit_bas);
+	SDL_DestroyTexture(sprite_cuistot_gauche_haut);SDL_DestroyTexture(sprite_cuistot_gauche_bas);
 	for(int i=0;i<nbPatate;i++){SDL_DestroyTexture(spatate[i]);free(patate[i]);}
-	SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);
+	SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);SDL_DestroyTexture(spatate_fond);
 	SDL_DestroyTexture(svie);
-	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);
+	SDL_DestroyTexture(fond_frite_option);
+	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);SDL_DestroyTexture(texte_start);
+	SDL_DestroyTexture(texte_option);SDL_DestroyTexture(texte_menu_score);SDL_DestroyTexture(texte_diff);SDL_DestroyTexture(texte_menu_sons_delete);
 	SDL_DestroyTexture(ssound1);SDL_DestroyTexture(ssound2);SDL_DestroyTexture(ssound3);SDL_DestroyTexture(snosound);
+	SDL_DestroyTexture(text_msg_tuto_p1_1);SDL_DestroyTexture(text_msg_tuto_p1_2);SDL_DestroyTexture(text_msg_tuto_p1_3);
+	SDL_DestroyTexture(text_msg_tuto_p2_1);SDL_DestroyTexture(text_msg_tuto_p2_2);SDL_DestroyTexture(text_msg_tuto_p2_3);
+	SDL_DestroyTexture(texte_scoreboard1er);SDL_DestroyTexture(texte_scoreboard2eme);SDL_DestroyTexture(texte_scoreboard3eme);SDL_DestroyTexture(texte_scoreboard4eme);SDL_DestroyTexture(texte_scoreboard5eme);
+	SDL_DestroyTexture(back);
 	SDL_DestroyRenderer(ecran);
 	SDL_DestroyWindow(fenetre);
 	TTF_CloseFont(font);TTF_CloseFont(fontmenu);TTF_CloseFont(fontoption);TTF_CloseFont(fontscore);TTF_CloseFont(fontstart);
+	TTF_CloseFont(fontoption_sons);TTF_CloseFont(font_tuto);
 	TTF_Quit();
 	SDL_Quit();
 	return 0;
