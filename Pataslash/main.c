@@ -71,7 +71,7 @@ int main()	{
 	SDL_Texture* fond_diff = charger_image("Ressources/Background/fond_frite_diff.bmp",ecran);
 
 	//Image fond option
-	SDL_Texture* fond_frite_option = charger_image("Ressources/Background/fond_frite_opton.bmp",ecran);
+	SDL_Texture* fond_frite_option = charger_image("Ressources/Background/fond_frite_option.bmp",ecran);
 
     //Image fond in game
 	SDL_Texture* fond_ingame = charger_image("Ressources/Background/fond_cuisine_blanc.bmp",ecran);
@@ -169,7 +169,7 @@ int main()	{
 	TTF_Font *fontstart = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",90);
 	TTF_Font *fontoption = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
 	TTF_Font *fontscore = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
-	TTF_Font *fontoption_sons = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",60);
+	TTF_Font *fontoption_sons = TTF_OpenFont("Ressources/Polices/arial.ttf",50);
 	TTF_Font *font_tuto = TTF_OpenFont("Ressources/Polices/arial.ttf",70);
 	TTF_Font *font_titre = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",100);
 	SDL_Color color = {0,0,0,0};
@@ -690,7 +690,7 @@ int main()	{
 	for(int i=0;i<nbPatate;i++){SDL_DestroyTexture(spatate[i]);free(patate[i]);}
 	SDL_DestroyTexture(spritepatate);SDL_DestroyTexture(spatate_ko);SDL_DestroyTexture(spatate_alive);SDL_DestroyTexture(spatate_fond);
 	SDL_DestroyTexture(svie);
-	SDL_DestroyTexture(fond_frite_option);
+	SDL_DestroyTexture(fond_diff);SDL_DestroyTexture(fond_frite_option);
 	SDL_DestroyTexture(texte_score_max);SDL_DestroyTexture(texte_score);SDL_DestroyTexture(texte_menu_sons);SDL_DestroyTexture(texte_menu);SDL_DestroyTexture(texte_start);
 	SDL_DestroyTexture(texte_option);SDL_DestroyTexture(texte_menu_score);SDL_DestroyTexture(texte_diff);SDL_DestroyTexture(texte_menu_sons_delete);
 	SDL_DestroyTexture(ssound1);SDL_DestroyTexture(ssound2);SDL_DestroyTexture(ssound3);SDL_DestroyTexture(snosound);
