@@ -1,0 +1,30 @@
+Dans un monde où les patates venues de l'espace se sont rebellées contre les 
+humains, seul super-cuisto continue la lutte acharné contre l'envahisseur. 
+Seul son arme secrète, le pataslash, est capable de les tuées.
+Mais étant trop grand pour utiliser cette arme légendaire il décida de se 
+rétrécir afin de faire de la purée de patate de l espace.
+
+L'heure de la dernière bataille est arrivé, mais super-cuisto avec son fidel 
+pataslash seront-ils en mesure de sauver l'humanité ?
+
+
+Bonjour et bienvenu dans Pataslash ! 
+Le principe du jeu est simple, survivre aux attaques incessante des patates et
+tuer en le plus possible pour avoir le meilleur score !
+
+La commande pour exécuter le jeu est "./main", pour jouer vous n'aurez besoin que
+de vos touches directionnelles gauche et droite, tourné vous au bon moment vers 
+les patates pour les tuées. Au lancement du jeu vous avez trois possibilité,
+le bouton start qui va vous permettre de choisir un niveau de difficulté puis
+de lancé la partie après un court tuto, le deuxième option vous permet de 
+modifier le volume de la musique ou de remettre le tableau des scores à 0.
+Le troisième et dernier bouton vous permet de visualiser les scores déja 
+enregistré. Pour sortir d'un menu et revenir au menu principal utilisé la touche
+"Retour arrière".
+Bon jeu et que le sort fasse que super-cuisto sauve le monde!
+
+
+
+
+Binôme : ODOR Thibault & PIERSON Thomas
+Lien git : https://github.com/thibaultodor/projet_prog_avc
