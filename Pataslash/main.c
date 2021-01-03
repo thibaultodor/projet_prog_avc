@@ -67,8 +67,11 @@ int main()	{
 	//Image fond
 	SDL_Texture* fond = charger_image("Ressources/Background/fond_frite.bmp",ecran);
 
-    //Image sfond in game
+    //Image fond in game
 	SDL_Texture* fond_ingame = charger_image("Ressources/Background/fond_cuisine_blanc.bmp",ecran);
+
+	//Image fond in game
+	SDL_Texture* fond_ingame_tuto = charger_image("Ressources/Background/fond_cuisine_blanc_tuto.bmp",ecran);
 
 	//Image sprite carre (joueur)
 	SDL_Texture* sdcarre = charger_image_transparente("Ressources/Sprites/Patates/sprite_patate_nodegat.bmp",ecran,r,g,b);
@@ -161,7 +164,8 @@ int main()	{
 	TTF_Font *fontoption = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
 	TTF_Font *fontscore = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
 	TTF_Font *fontoption_sons = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",60);
-	TTF_Font *font_tuto = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",40);
+	TTF_Font *font_tuto = TTF_OpenFont("Ressources/Polices/arial.ttf",70);
+	TTF_Font *font_titre = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",100);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
@@ -198,6 +202,14 @@ int main()	{
 	int position_menu_touche = 1;
 	int tick = 0;
 	int tick_entree = 0;
+	//Titre
+	char msg_titre[] = "PATASLASH";	//Gestion menu
+	SDL_Texture* texte_titre = charger_texte(msg_titre,ecran,font_titre,color_red);
+	SDL_Rect text_pos_titre; // Position du msg
+	text_pos_titre.x = 50;
+	text_pos_titre.y = 20;
+	text_pos_titre.w = 500;// Largeur du texte_score_max en pixels (a recuperer)
+	text_pos_titre.h = 150;// Hauteur du texte_score_max en pixels (a recuperer)
 	//Appuyez sur entree
 	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
@@ -211,7 +223,7 @@ int main()	{
 	SDL_Texture* texte_start = charger_texte(msg_start,ecran,fontstart,color);
 	SDL_Rect text_pos_start; // Position du msg
 	text_pos_start.x = 150;
-	text_pos_start.y = 200;
+	text_pos_start.y = 225;
 	text_pos_start.w = 300;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_start.h = 100;// Hauteur du texte_score_max en pixels (a recuperer)
 	//Options
@@ -219,7 +231,7 @@ int main()	{
 	SDL_Texture* texte_option = charger_texte(msg_option,ecran,fontoption,color);
 	SDL_Rect text_pos_option; // Position du msg
 	text_pos_option.x = 200;
-	text_pos_option.y = 300;
+	text_pos_option.y = 325;
 	text_pos_option.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_option.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
 	//Score
@@ -227,19 +239,9 @@ int main()	{
 	SDL_Texture* texte_menu_score = charger_texte(msg_score_menu,ecran,fontscore,color);
 	SDL_Rect text_pos_scores; // Position du msg
 	text_pos_scores.x = 200;
-	text_pos_scores.y = 350;
+	text_pos_scores.y = 375;
 	text_pos_scores.w = 200;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_scores.h = 50;// Hauteur du texte_score_max en pixels (a recuperer)
-	/*
-	//Retour
-	char msg_retour[] = "RETOUR";	//Gestion menu
-	SDL_Texture* texte_retour = charger_texte(msg_retour,ecran,fontscore,color);
-	SDL_Rect text_pos_retour; // Position du msg
-	text_pos_retour.x = 130;
-	text_pos_retour.y = 540;
-	text_pos_retour.w = 80;// Largeur du texte_score_max en pixels (a recuperer)
-	text_pos_retour.h = 30;// Hauteur du texte_score_max en pixels (a recuperer)
-	*/
 	///////////////////////////////////////////
 
 	/////////////////Message choix difficulta////////////////////
@@ -277,21 +279,23 @@ int main()	{
 	SDL_Texture* text_msg_tuto_p1_2 = charger_texte(msg_tuto_p1_2,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p1_3 = charger_texte(msg_tuto_p1_3,ecran,font_tuto,color);
 	SDL_Rect pos_tuto_1_1,pos_tuto_1_2,pos_tuto_1_3;
-	pos_tuto_1_1.x = 150;pos_tuto_1_2.x = 150;pos_tuto_1_3.x = 250;
-	pos_tuto_1_1.y = 150;pos_tuto_1_2.y = 220;pos_tuto_1_3.y = 290;
-	pos_tuto_1_1.w = 300;pos_tuto_1_2.w = 300;pos_tuto_1_3.w = 100;
+	pos_tuto_1_1.x = 128;pos_tuto_1_2.x = 125;pos_tuto_1_3.x = 250;
+	pos_tuto_1_1.y = 190;pos_tuto_1_2.y = 240;pos_tuto_1_3.y = 290;
+	pos_tuto_1_1.w = 350;pos_tuto_1_2.w = 360;pos_tuto_1_3.w = 100;
 	pos_tuto_1_1.h = 40;pos_tuto_1_2.h = 40;pos_tuto_1_3.h = 40;
-	char msg_tuto_p2_1[] = "But : Faire le plus haut score";	//Tuto part1_1
+	char msg_tuto_p2_1[] = "But du jeu : Faire le plus haut score";	//Tuto part1_1
 	char msg_tuto_p2_2[] = "(votre score augmente en tuant une patate)";	//Tuto part1_2
 	char msg_tuto_p2_3[] = "Appuyez sur R afin de recommencer";	//Tuto part1_3
+	char msg_tuto_p2_4[] = "(Note : Votre score n'est pas enregistrée si vous recommencez)";	//Tuto part1_4
 	SDL_Texture* text_msg_tuto_p2_1 = charger_texte(msg_tuto_p2_1,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_2 = charger_texte(msg_tuto_p2_2,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_3 = charger_texte(msg_tuto_p2_3,ecran,font_tuto,color);
-	SDL_Rect pos_tuto_2_1,pos_tuto_2_2,pos_tuto_2_3;
-	pos_tuto_2_1.x = 150;pos_tuto_2_2.x = 130;pos_tuto_2_3.x = 150;
-	pos_tuto_2_1.y = 150;pos_tuto_2_2.y = 220;pos_tuto_2_3.y = 320;
-	pos_tuto_2_1.w = 300;pos_tuto_2_2.w = 340;pos_tuto_2_3.w = 300;
-	pos_tuto_2_1.h = 40;pos_tuto_2_2.h = 40;pos_tuto_2_3.h = 40;
+	SDL_Texture* text_msg_tuto_p2_4 = charger_texte(msg_tuto_p2_4,ecran,font_tuto,color);
+	SDL_Rect pos_tuto_2_1,pos_tuto_2_2,pos_tuto_2_3,pos_tuto_2_4;
+	pos_tuto_2_1.x = 110;pos_tuto_2_2.x = 105;pos_tuto_2_3.x = 130;pos_tuto_2_4.x = 60;
+	pos_tuto_2_1.y = 185;pos_tuto_2_2.y = 225;pos_tuto_2_3.y = 270;pos_tuto_2_4.y = 310;
+	pos_tuto_2_1.w = 380;pos_tuto_2_2.w = 390;pos_tuto_2_3.w = 340;pos_tuto_2_4.w = 480;
+	pos_tuto_2_1.h = 40;pos_tuto_2_2.h = 30;pos_tuto_2_3.h = 40;pos_tuto_2_4.h = 30;
 	////////////////////////////////////////////////////////////////////
 
 	//////////////////////////SCOREBOARD/////////////////////////////////
@@ -390,7 +394,7 @@ int main()	{
 			tick_entree++;
 			if(swtch_entree==0){SDL_RenderCopy(ecran, texte_menu, NULL, &text_pos_menu);}
 			///////////////////////////////////////////////////////////////////////
-
+			SDL_RenderCopy(ecran, texte_titre, NULL, &text_pos_titre);
 			SDL_RenderCopy(ecran, texte_start, NULL, &text_pos_start);
 			SDL_RenderCopy(ecran, texte_option, NULL, &text_pos_option);
 			SDL_RenderCopy(ecran, texte_menu_score, NULL, &text_pos_scores);
@@ -552,7 +556,6 @@ int main()	{
 		    	}
 		    	DestRv.x = 400;
 
-		    	//SDL_RenderCopy(ecran, sprites, spriterectsrc, spriterectdest);
 		    	if(trigger_patate_dead){
 		    		tempo_coup++;
 		    		if(spritedroit){SDL_RenderCopy(ecran,sprite_cuistot_droit_bas,NULL,&Position_cuistot_d_b);}
@@ -637,7 +640,7 @@ int main()	{
 			}
 			else{
 				SDL_RenderClear(ecran);
-				SDL_RenderCopy(ecran, fond_ingame, NULL, NULL);
+				SDL_RenderCopy(ecran, fond_ingame_tuto, NULL, NULL);
 				time_tuto++;
 
 				if(time_tuto<=20000){
@@ -650,7 +653,8 @@ int main()	{
 					SDL_RenderCopy(ecran,text_msg_tuto_p2_1, NULL,&pos_tuto_2_1);
 					SDL_RenderCopy(ecran,text_msg_tuto_p2_2, NULL,&pos_tuto_2_2);
 					SDL_RenderCopy(ecran,text_msg_tuto_p2_3, NULL,&pos_tuto_2_3);
-					if(time_tuto==40000){tuto=false;time_tuto=0;}
+					SDL_RenderCopy(ecran,text_msg_tuto_p2_4, NULL,&pos_tuto_2_4);
+					if(time_tuto==50000){tuto=false;time_tuto=0;}
 				}
 				SDL_RenderPresent(ecran);
 
