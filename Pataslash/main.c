@@ -217,7 +217,7 @@ int main()	{
 	text_pos_titre.w = 500;// Largeur du texte_score_max en pixels (a recuperer)
 	text_pos_titre.h = 150;// Hauteur du texte_score_max en pixels (a recuperer)
 	//Appuyez sur entree
-	char msg_menu[] = "Appuyez sur entrï¿½e pour commencer";	//Gestion menu
+	char msg_menu[] = "Appuyez sur entrée pour commencer";	//Gestion menu
 	SDL_Texture* texte_menu = charger_texte(msg_menu,ecran,fontmenu,color);
 	SDL_Rect text_pos_menu; // Position du msg
 	text_pos_menu.x = 100;
@@ -268,7 +268,7 @@ int main()	{
 	text_pos_menu_sons.y = 40;
 	text_pos_menu_sons.w = 550;// Largeur du texte_score_max en pixels (e recuperer)
 	text_pos_menu_sons.h = 30;// Hauteur du texte_score_max en pixels (e recuperer)
-	char msg_menu_sons_delete[] = "Appuyez sur 'd' pour remmettre ï¿½ zero vos scores.";	//Gestion menu
+	char msg_menu_sons_delete[] = "Appuyez sur 'd' pour remmettre à zero vos scores";	//Gestion menu
 	SDL_Texture* texte_menu_sons_delete = charger_texte(msg_menu_sons_delete,ecran,fontoption_sons,color);
 	SDL_Rect text_pos_menu_sons_delete; // Position du texte_score_max
 	text_pos_menu_sons_delete.x = 40;
@@ -292,7 +292,7 @@ int main()	{
 	char msg_tuto_p2_1[] = "But du jeu : Faire le plus haut score";	//Tuto part1_1
 	char msg_tuto_p2_2[] = "(votre score augmente en tuant une patate)";	//Tuto part1_2
 	char msg_tuto_p2_3[] = "Appuyez sur R afin de recommencer";	//Tuto part1_3
-	char msg_tuto_p2_4[] = "(Note : Votre score n'est pas enregistrï¿½e si vous recommencez)";	//Tuto part1_4
+	char msg_tuto_p2_4[] = "(Note : Votre score n'est pas enregistrée si vous recommencez)";	//Tuto part1_4
 	SDL_Texture* text_msg_tuto_p2_1 = charger_texte(msg_tuto_p2_1,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_2 = charger_texte(msg_tuto_p2_2,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_3 = charger_texte(msg_tuto_p2_3,ecran,font_tuto,color);
