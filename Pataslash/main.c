@@ -67,6 +67,9 @@ int main()	{
 	//Image fond
 	SDL_Texture* fond = charger_image("Ressources/Background/fond_frite.bmp",ecran);
 
+	//Image fond
+	SDL_Texture* fond_diff = charger_image("Ressources/Background/fond_frite_diff.bmp",ecran);
+
     //Image fond in game
 	SDL_Texture* fond_ingame = charger_image("Ressources/Background/fond_cuisine_blanc.bmp",ecran);
 
@@ -248,10 +251,10 @@ int main()	{
 	char msg_diff[] = "Quel niveau de difficulte ? (1, 2 ou 3)";	//Gestion menu
 	SDL_Texture* texte_diff = charger_texte(msg_diff,ecran,fontmenu,color);
 	SDL_Rect text_pos_diff; // Position du texte_score_max
-	text_pos_diff.x = 50;
-	text_pos_diff.y = 300;
-	text_pos_diff.w = 500;// Largeur du texte_score_max en pixels (e recuperer)
-	text_pos_diff.h = 40;// Hauteur du texte_score_max en pixels (e recuperer)
+	text_pos_diff.x = 10;
+	text_pos_diff.y = 285;
+	text_pos_diff.w = 590;// Largeur du texte_score_max en pixels (e recuperer)
+	text_pos_diff.h = 35;// Hauteur du texte_score_max en pixels (e recuperer)
 	////////////////////////////////////////////////////////////
 
 	///////////////Opton du sons////////////////////////////////
@@ -292,7 +295,7 @@ int main()	{
 	SDL_Texture* text_msg_tuto_p2_3 = charger_texte(msg_tuto_p2_3,ecran,font_tuto,color);
 	SDL_Texture* text_msg_tuto_p2_4 = charger_texte(msg_tuto_p2_4,ecran,font_tuto,color);
 	SDL_Rect pos_tuto_2_1,pos_tuto_2_2,pos_tuto_2_3,pos_tuto_2_4;
-	pos_tuto_2_1.x = 110;pos_tuto_2_2.x = 105;pos_tuto_2_3.x = 130;pos_tuto_2_4.x = 60;
+	pos_tuto_2_1.x = 110;pos_tuto_2_2.x = 106;pos_tuto_2_3.x = 130;pos_tuto_2_4.x = 60;
 	pos_tuto_2_1.y = 185;pos_tuto_2_2.y = 225;pos_tuto_2_3.y = 270;pos_tuto_2_4.y = 310;
 	pos_tuto_2_1.w = 380;pos_tuto_2_2.w = 390;pos_tuto_2_3.w = 340;pos_tuto_2_4.w = 480;
 	pos_tuto_2_1.h = 40;pos_tuto_2_2.h = 30;pos_tuto_2_3.h = 40;pos_tuto_2_4.h = 30;
@@ -449,7 +452,7 @@ int main()	{
 		//////////////////////////////////// GESTION DIFFICULTE ////////////////////////////////////
 		else if(difficulte){
 			SDL_RenderClear(ecran);
-			SDL_RenderCopy(ecran, fond, NULL, NULL);
+			SDL_RenderCopy(ecran, fond_diff, NULL, NULL);
 			SDL_RenderCopy(ecran, texte_diff, NULL, &text_pos_diff);
 
 			SDL_RenderCopy(ecran, back,NULL,&DestBack);
