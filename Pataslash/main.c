@@ -26,7 +26,7 @@ int main()	{
 	initAudio();
 	//Demarrage musique
 	int audio = 8;
-	playMusic("road.wav", audio);
+	playMusic("Ressources/Audio/road.wav", audio);
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) // Initialisation de la SDL
 	{
@@ -36,7 +36,7 @@ int main()	{
 	}
 
 	// Creer la fenetre
-	fenetre = SDL_CreateWindow("JEU", SDL_WINDOWPOS_CENTERED,
+	fenetre = SDL_CreateWindow("Pataslash", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, 600, 600,0);
 	if(fenetre == NULL) // En cas d'erreur
 	{
@@ -44,6 +44,10 @@ int main()	{
 	SDL_Quit();
 	return EXIT_FAILURE;
 	}
+
+	SDL_Surface * surface_icon = SDL_LoadBMP("Ressources/Sprites/Interface/icon.bmp");
+  	SDL_SetWindowIcon(fenetre, surface_icon);
+  	SDL_FreeSurface(surface_icon);
 
 	int best_score = 0;	//Bool du best score
 	int score = 0; //Initialisation du score
@@ -61,37 +65,33 @@ int main()	{
 	SDL_Renderer *ecran = SDL_CreateRenderer(fenetre, -1, 0);
 
 	//Image fond
-	SDL_Texture* fond = charger_image("fond_frite.bmp",ecran);
+	SDL_Texture* fond = charger_image("Ressources/Background/fond_frite.bmp",ecran);
 
     //Image sfond in game
-	SDL_Texture* fond_ingame = charger_image("fond_cuisine_blanc.bmp",ecran);
+	SDL_Texture* fond_ingame = charger_image("Ressources/Background/fond_cuisine_blanc.bmp",ecran);
 
 	//Image sprite carre (joueur)
-	/*
-	SDL_Texture* sdcarre = charger_image("sprite_droite.bmp",ecran);
-	SDL_Texture* sgcarre = charger_image("sprite_gauche.bmp",ecran);
-	*/
-	SDL_Texture* sdcarre = charger_image_transparente("PATATE/sprite_patate_nodegat.bmp",ecran,r,g,b);
-	SDL_Texture* sgcarre = charger_image_transparente("PATATE/sprite_patate_nodegat.bmp",ecran,r,g,b);
+	SDL_Texture* sdcarre = charger_image_transparente("Ressources/Sprites/Patates/sprite_patate_nodegat.bmp",ecran,r,g,b);
+	SDL_Texture* sgcarre = charger_image_transparente("Ressources/Sprites/Patates/sprite_patate_nodegat.bmp",ecran,r,g,b);
 	SDL_Rect DestRc;
 	positionImageCarre(&DestRc);
 
-	SDL_Texture* sprite_cuistot_menu = charger_image_transparente("spritecuistot/cuistot_menu.bmp",ecran,r,g,b);
+	SDL_Texture* sprite_cuistot_menu = charger_image_transparente("Ressources/Sprites/Cuistot/cuistot_menu.bmp",ecran,r,g,b);
 	SDL_Rect DestRSprite_menu;
 	positionSpriteCuistotMenu(&DestRSprite_menu);
 
 	//////////////////////////////SPRITE CUISTOT///////////////////////////////
 	SDL_Rect Position_cuistot_d_h,Position_cuistot_g_h,Position_cuistot_d_b,Position_cuistot_g_b;
 
-	SDL_Texture* sprite_cuistot_droit_haut = charger_image_transparente("spritecuistot/Cuistot_droit_haut.bmp",ecran,r,g,b);
-	SDL_Texture* sprite_cuistot_gauche_haut = charger_image_transparente("spritecuistot/Cuistot_gauche_haut.bmp",ecran,r,g,b);
+	SDL_Texture* sprite_cuistot_droit_haut = charger_image_transparente("Ressources/Sprites/Cuistot/Cuistot_droit_haut.bmp",ecran,r,g,b);
+	SDL_Texture* sprite_cuistot_gauche_haut = charger_image_transparente("Ressources/Sprites/Cuistot/Cuistot_gauche_haut.bmp",ecran,r,g,b);
 	Position_cuistot_d_h.x=250;Position_cuistot_g_h.x=260;
 	Position_cuistot_d_h.y=350;Position_cuistot_g_h.y=350;
 	Position_cuistot_d_h.w=99;Position_cuistot_g_h.w=99;
 	Position_cuistot_d_h.h=180;Position_cuistot_g_h.h=180;
 
-	SDL_Texture* sprite_cuistot_droit_bas = charger_image_transparente("spritecuistot/Cuistot_droit_bas.bmp",ecran,r,g,b);
-	SDL_Texture* sprite_cuistot_gauche_bas = charger_image_transparente("spritecuistot/Cuistot_gauche_bas.bmp",ecran,r,g,b);
+	SDL_Texture* sprite_cuistot_droit_bas = charger_image_transparente("Ressources/Sprites/Cuistot/Cuistot_droit_bas.bmp",ecran,r,g,b);
+	SDL_Texture* sprite_cuistot_gauche_bas = charger_image_transparente("Ressources/Sprites/Cuistot/Cuistot_gauche_bas.bmp",ecran,r,g,b);
 	Position_cuistot_d_b.x=250;Position_cuistot_g_b.x=255;
 	Position_cuistot_d_b.y=350;Position_cuistot_g_b.y=350;
 	Position_cuistot_d_b.w=104;Position_cuistot_g_b.w=104;
@@ -108,16 +108,16 @@ int main()	{
 	int posy_patate_attack_haut = DestRc.y;
 
 	//Image sprite patate
-	SDL_Texture* spatate_alive = charger_image_transparente("PATATE/sprite_patate_nodegat.bmp",ecran,r,g,b);
-	SDL_Texture* spatate_ko = charger_image_transparente("PATATE/patateko.bmp",ecran,r,g,b);
+	SDL_Texture* spatate_alive = charger_image_transparente("Ressources/Sprites/Patates/sprite_patate_nodegat.bmp",ecran,r,g,b);
+	SDL_Texture* spatate_ko = charger_image_transparente("Ressources/Sprites/Patates/patateko.bmp",ecran,r,g,b);
 	//Declaration patate plus positionnement
 	SDL_Texture *simagepatate[4];
-	simagepatate[0] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
-	simagepatate[1] = charger_image_transparente("PATATE/patate1.bmp",ecran,r,g,b);
-	simagepatate[2] = charger_image_transparente("PATATE/patate2.bmp",ecran,r,g,b);
-	simagepatate[3] = charger_image_transparente("PATATE/patate3.bmp",ecran,r,g,b);
+	simagepatate[0] = charger_image_transparente("Ressources/Sprites/Patates/patate0.bmp",ecran,r,g,b);
+	simagepatate[1] = charger_image_transparente("Ressources/Sprites/Patates/patate1.bmp",ecran,r,g,b);
+	simagepatate[2] = charger_image_transparente("Ressources/Sprites/Patates/patate2.bmp",ecran,r,g,b);
+	simagepatate[3] = charger_image_transparente("Ressources/Sprites/Patates/patate3.bmp",ecran,r,g,b);
 
-	SDL_Texture* spatate_fond = charger_image_transparente("PATATE/patate_fond.bmp",ecran,r,g,b);
+	SDL_Texture* spatate_fond = charger_image_transparente("Ressources/Sprites/Interface/patate_fond.bmp",ecran,r,g,b);
 
 	////////////////
 
@@ -133,35 +133,35 @@ int main()	{
 		if(i%2==0){sens=true;}
       	else{sens=false;}
       	creerPatate(patate[i-1],sens,i);
-      	spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
+      	spatate[i-1] = charger_image_transparente("Ressources/Sprites/Patates/patate0.bmp",ecran,r,g,b);
 	}
 
 	//Image Vie
-	SDL_Texture* svie = charger_image_transparente("vie.bmp",ecran,r,g,b);
+	SDL_Texture* svie = charger_image_transparente("Ressources/Sprites/Interface/vie.bmp",ecran,r,g,b);
 	SDL_Rect DestRv;
 	positionImageVie(&DestRv);
 	//Image Sons
-	SDL_Texture* snosound = charger_image_transparente("soundsprite/musicno.bmp",ecran,r,g,b);
-	SDL_Texture* ssound1 = charger_image_transparente("soundsprite/musicfull-2.bmp",ecran,r,g,b);
-	SDL_Texture* ssound2 = charger_image_transparente("soundsprite/musicfull-1.bmp",ecran,r,g,b);
-	SDL_Texture* ssound3 = charger_image_transparente("soundsprite/musicfull.bmp",ecran,r,g,b);
+	SDL_Texture* snosound = charger_image_transparente("Ressources/Sprites/Sons/musicno.bmp",ecran,r,g,b);
+	SDL_Texture* ssound1 = charger_image_transparente("Ressources/Sprites/Sons/musicfull-2.bmp",ecran,r,g,b);
+	SDL_Texture* ssound2 = charger_image_transparente("Ressources/Sprites/Sons/musicfull-1.bmp",ecran,r,g,b);
+	SDL_Texture* ssound3 = charger_image_transparente("Ressources/Sprites/Sons/musicfull.bmp",ecran,r,g,b);
 	SDL_Rect DestRs;
 	positionImageSons(&DestRs);
 
 	//Image retour
-	SDL_Texture* back = charger_image("back.bmp",ecran);
+	SDL_Texture* back = charger_image("Ressources/Sprites/Interface/back.bmp",ecran);
 	SDL_Rect DestBack;
 	positionImageBack(&DestBack);
 
 	//Gestion affichage texte_score_max pour score
 	TTF_Init(); 
-	TTF_Font *font = TTF_OpenFont("font/arial.ttf",25);
-	TTF_Font *fontmenu = TTF_OpenFont("font/PressStart2P.ttf",80);
-	TTF_Font *fontstart = TTF_OpenFont("font/secretsauce.ttf",90);
-	TTF_Font *fontoption = TTF_OpenFont("font/secretsauce.ttf",60);
-	TTF_Font *fontscore = TTF_OpenFont("font/secretsauce.ttf",60);
-	TTF_Font *fontoption_sons = TTF_OpenFont("font/PressStart2P.ttf",60);
-	TTF_Font *font_tuto = TTF_OpenFont("font/PressStart2P.ttf",40);
+	TTF_Font *font = TTF_OpenFont("Ressources/Polices/arial.ttf",25);
+	TTF_Font *fontmenu = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",80);
+	TTF_Font *fontstart = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",90);
+	TTF_Font *fontoption = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
+	TTF_Font *fontscore = TTF_OpenFont("Ressources/Polices/secretsauce.ttf",60);
+	TTF_Font *fontoption_sons = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",60);
+	TTF_Font *font_tuto = TTF_OpenFont("Ressources/Polices/PressStart2P.ttf",40);
 	SDL_Color color = {0,0,0,0};
 	SDL_Color color_red = {250,0,0,0};
 	int tick_color_red = 0;
@@ -312,7 +312,7 @@ int main()	{
 	/////////////////////////////////////////////////////////////////////
 
 	SDL_Texture* spritecarree = sdcarre; //Texture tampon du du joueur
-	SDL_Texture* spritepatate = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b); //Texture tampon de la patate
+	SDL_Texture* spritepatate = charger_image_transparente("Ressources/Sprites/Patates/patate0.bmp",ecran,r,g,b); //Texture tampon de la patate
 
 	bool menu = true;
 	bool difficulte = false;
@@ -342,7 +342,7 @@ int main()	{
 					if(i%2==0){sens=true;}
       				else{sens=false;}
       				creerPatate(patate[i-1],sens,i);
-      				spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
+      				spatate[i-1] = charger_image_transparente("Ressources/Sprites/Patates/patate0.bmp",ecran,r,g,b);
 				}
       			for(int i=0;i<nbPatate;i++){retourPatateMenu(patate[i]);spatate[i] = spritepatate;};
 
@@ -474,7 +474,7 @@ int main()	{
 					if(i%2==0){sens=true;}
       				else{sens=false;}
       				creerPatate(patate[i-1],sens,i);
-      				spatate[i-1] = charger_image_transparente("PATATE/patate0.bmp",ecran,r,g,b);
+      				spatate[i-1] = charger_image_transparente("Ressources/Sprites/Patates/patate0.bmp",ecran,r,g,b);
 				}
       			for(int i=0;i<nbPatate;i++){retourPatate(patate[i]);spatate[i] = spritepatate;};
       			difficulte = false;
@@ -506,8 +506,8 @@ int main()	{
 			case SDL_KEYDOWN:
 				switch(evenements.key.keysym.sym){
 				case SDLK_ESCAPE:case SDLK_q:terminer = true; break;
-				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();break;
-				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
+				case SDLK_p: audio++;pauseAudio();SDL_Delay(10);playMusic("Ressources/Audio/road.wav", audio);SDL_Delay(10);unpauseAudio();break;
+				case SDLK_m: if(audio!=0){audio--;pauseAudio();SDL_Delay(10);playMusic("Ressources/Audio/road.wav", audio);SDL_Delay(10);unpauseAudio();}break;
 				case SDLK_BACKSPACE:menu = true;option_sons=false;break;
 				case SDLK_d:resetScore(pFile);meilleur_score_fichier = 0;menu = true;option_sons=false;firstlaunch=true;break;
 				}
@@ -590,16 +590,16 @@ int main()	{
 
 
 					if (patate[i]->DestR.x >= 600-3 && patate[i]->DestR.x <= 600+3 && patate[i]->droit == true){//Gestion score plus mort ou vie de la patate
-						if(patate[i]->cri_arrive == false){playSound("Arrive.wav", audio+90);patate[i]->cri_arrive = true;}
+						if(patate[i]->cri_arrive == false){playSound("Ressources/Audio/Arrive.wav", audio+90);patate[i]->cri_arrive = true;}
 					}
 					else if (patate[i]->DestR.x >= -53 && patate[i]->DestR.x <= -47 && patate[i]->droit == false){//Gestion score plus mort ou vie de la patate
-						if(patate[i]->cri_arrive == false){playSound("Arrive.wav", audio+90);patate[i]->cri_arrive = true;}
+						if(patate[i]->cri_arrive == false){playSound("Ressources/Audio/Arrive.wav", audio+90);patate[i]->cri_arrive = true;}
 					}
 
 					if (patate[i]->DestR.x >= posx_patate_attack_gauche-5 && patate[i]->DestR.x <= posx_patate_attack_gauche && patate[i]->droit == true){//Gestion score plus mort ou vie de la patate
 						if(patate[i]->patate_interval == false){
 							if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
-								if (joueur->droit==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);patate[i]->vie=false;trigger_patate_dead=true;}
+								if (joueur->droit==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Ressources/Audio/Mort.wav",audio+90);patate[i]->vie=false;trigger_patate_dead=true;}
 								if (joueur->gauche==1){spatate[i] = spatate_alive;joueur->vie--;}
 							}
 							patate[i]->patate_interval = true;
@@ -608,7 +608,7 @@ int main()	{
 					else if (patate[i]->DestR.x >= posx_patate_attack_droite-patate[i]->DestR.w && patate[i]->DestR.x <= posx_patate_attack_droite-patate[i]->DestR.w+5 && patate[i]->droit == false){//Gestion score plus mort ou vie de la patate
 						if(patate[i]->patate_interval == false){	
 							if(patate[i]->DestR.y > posy_patate_attack_haut && patate[i]->DestR.y < posy_patate_attack_bas){
-								if (joueur->gauche==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Mort.wav",audio+90);patate[i]->vie=false;trigger_patate_dead=true;}
+								if (joueur->gauche==1){spatate[i] = spatate_ko;score++;texte_score = charger_texte_score_actu(score,ecran,font,color);playSound("Ressources/Audio/Mort.wav",audio+90);patate[i]->vie=false;trigger_patate_dead=true;}
 								if (joueur->droit==1){spatate[i] = spatate_alive;joueur->vie--;}
 							}
 							patate[i]->patate_interval = true;
